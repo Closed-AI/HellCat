@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // самопальная структурка) для объединения игрового объекта и частоты (ОТНОСИТЕЛЬНОЙ) его появления
+[Serializable]
 public class Map
 {
     public GameObject obj;
@@ -46,7 +48,7 @@ public class Rule : MonoBehaviour
         while (true)
         {
             // выбор объекта для спавна из списка arr (строка 19)
-            randVal = Random.Range(0, 1);
+            randVal = UnityEngine.Random.Range(0, 1);
             for (objectIndex = 0; objectIndex < arr.Length; objectIndex++)
                 if (randVal >= arr[objectIndex].spawnRate)
                     break;
