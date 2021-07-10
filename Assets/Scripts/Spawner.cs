@@ -19,8 +19,12 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         // запуск всех спавнеров
         foreach (var rule in rules)
-            StartCoroutine(rule.SpawnCoroutine());
+        {
+            rule.ConvertSpawnRates();              // перевод относительных частот в диапазоны
+            StartCoroutine(rule.SpawnCoroutine()); // запуск корутины спавнера
+        }
     }
 }

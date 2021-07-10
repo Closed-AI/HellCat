@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private bool alive;                              // игрок жив    
     private bool isDash;                             // игрок в рывке
 
+
     // Start is called before the first frame update
     void Start()
     {
