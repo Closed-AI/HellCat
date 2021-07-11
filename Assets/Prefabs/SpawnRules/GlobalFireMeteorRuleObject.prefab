@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDelay: 0
-  absSpawnRate: 0.2
+  absSpawnRate: 0.8
   arr:
   - obj: {fileID: 7460335436618263916, guid: 8407bbe1c5b547149857c34c6361f5e6, type: 3}
     spawnRate: 1
