@@ -61,8 +61,11 @@ public class Rule : MonoBehaviour
             // выбор объекта для спавна из списка arr (строка 21)
             randVal = UnityEngine.Random.Range(0, 1);
             for (objectIndex = 0; objectIndex < arr.Length; objectIndex++)
-                if (randVal < arr[objectIndex].spawnRate)
+                if (randVal <= arr[objectIndex].spawnRate)
                     break;
+
+            // для дебага, выпилить
+            Debug.Log(randVal);
 
             // сам спавн
             Spawn(objectIndex);

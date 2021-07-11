@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class Fire : MonoBehaviour
 {
-
-    [SerializeField] private float TimeDelay;          // Rigidbody метеорита
+    [SerializeField] private float TimeDelay;          // задержка перед исчезновением огненой зоны
 
     // Start is called before the first frame update
     void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
     {
         Destroy(gameObject, TimeDelay);
     }

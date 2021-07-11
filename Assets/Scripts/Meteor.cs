@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;          // Rigidbody метеорита
-    [SerializeField] private GameObject dropZonePref; // префаб красной зоны падения
-    [SerializeField] private float speed;             // скорость падения
+    [SerializeField] protected Rigidbody2D rb;          // Rigidbody метеорита
+    [SerializeField] protected GameObject dropZonePref; // префаб красной зоны падения
+    [SerializeField] protected float speed;             // скорость падения
 
-    private Vector2 dropPoint;                        // точка падения
-    private Vector2 dir;                              // направление ( для перемещения через метод AddForce)
-    private GameObject dropZone;                      // красная зона падения
-    private SpriteRenderer spriteRenderer;            // спрайт красной зоны (для изменения прозрачности)
-    private Color alphaColor;                         // параметры цвета спрайта (см предыдущая строка)
-    private float maxDistance;                        // длина пути
-    private float curDistance;                        // остаточная длина пути
+    protected Vector2 dropPoint;                        // точка падения
+    protected Vector2 dir;                              // направление ( для перемещения через метод AddForce)
+    protected GameObject dropZone;                      // красная зона падения
+    protected SpriteRenderer spriteRenderer;            // спрайт красной зоны (для изменения прозрачности)
+    protected Color alphaColor;                         // параметры цвета спрайта (см предыдущая строка)
+    protected float maxDistance;                        // длина пути
+    protected float curDistance;                        // остаточная длина пути
                                                       // две предыдущие переменные нужны для расчёта прозрачности спрайта красной зоны
 
     // чёртов шарп) это геттер и сеттер для dropZone (строка 13)
