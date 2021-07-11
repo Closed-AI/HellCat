@@ -147,8 +147,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7460335436618263905}
   - component: {fileID: 7460335436618263918}
-  - component: {fileID: 7638364447584444847}
   - component: {fileID: 5349462912375875557}
+  - component: {fileID: 2386990341153405695}
   m_Layer: 0
   m_Name: FireMeteor
   m_TagString: Untagged
@@ -221,22 +221,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7638364447584444847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7460335436618263916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab2e3ef935d6ccf45a9b4109ae105377, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 5349462912375875557}
-  dropZonePref: {fileID: 6510219796997903503, guid: d4e1e53c59d77b4489065b5dc781344b,
-    type: 3}
-  speed: 30
 --- !u!50 &5349462912375875557
 Rigidbody2D:
   serializedVersion: 4
@@ -258,3 +242,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2386990341153405695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460335436618263916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96dcae55dee25b14181591d933a5edcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 5349462912375875557}
+  dropZonePref: {fileID: 5528459412549470658, guid: 9bd61b2551dc9824f8ed6583484ba9ba,
+    type: 3}
+  speed: 30
