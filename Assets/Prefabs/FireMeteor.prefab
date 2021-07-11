@@ -258,3 +258,5 @@ MonoBehaviour:
   dropZonePref: {fileID: 5528459412549470658, guid: 9bd61b2551dc9824f8ed6583484ba9ba,
     type: 3}
   speed: 30
+  FirePref: {fileID: 6224918842869069399, guid: a5604eb53fb2725408e22e18eb813f3d,
+    type: 3}

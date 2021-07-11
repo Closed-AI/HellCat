@@ -757,6 +757,7 @@ MonoBehaviour:
   rules:
   - {fileID: 5582523416038145995, guid: 9711eb64641b59349a949a142d24c3e6, type: 3}
   - {fileID: 3994558906972170065, guid: 88e295b7135e63d4b9b1a5ca14aca82a, type: 3}
+  - {fileID: -1128234681062147006, guid: 45899e7e66a099443bf323f87a99faf2, type: 3}
 --- !u!1 &1249951108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c862d2273a8d724da60eeaabb5c6995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 30
   joystick: {fileID: 1465203830}
 --- !u!50 &1605489373
 Rigidbody2D:

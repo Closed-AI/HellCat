@@ -7,7 +7,9 @@ public class FireMeteor : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;          // Rigidbody метеорита
     [SerializeField] private GameObject dropZonePref; // префаб красной зоны падения
     [SerializeField] private float speed;             // скорость падения
+    [SerializeField] private GameObject FirePref;     // префаб огня
 
+    private float posX, posY;
     private Vector2 dropPoint;                        // точка падения
     private Vector2 dir;                              // направление ( для перемещения через метод AddForce)
     private GameObject dropZone;                      // красная зона падения
@@ -50,6 +52,8 @@ public class FireMeteor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        posX = transform.position.x;
+        posY = transform.position.y;
         // перемещение
         rb.AddForce(dir * speed, ForceMode2D.Force);
 
@@ -67,6 +71,8 @@ public class FireMeteor : MonoBehaviour
         // удаление метеорита после падения
         if (Vector2.Distance(rb.position, dropPoint) < 0.5f)
         {
+
+            Instantiate(FirePref, new Vector3(posX, posY, -1), Quaternion.identity);
             Destroy(dropZone);
             Destroy(this.gameObject);
         }
