@@ -123,7 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadingTime: 3
   freezingTime: 1
-  translationSpeed: 2
+  translationSpeed: 20
 --- !u!1 &7417796672014934089
 GameObject:
   m_ObjectHideFlags: 0
