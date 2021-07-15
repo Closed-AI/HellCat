@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //скрипт для перехода между сценами
 // (секция try - catch предназначена для отлова ошибок названия сцены)
-public class SceneManager : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
     public void LoadScene(string SceneName)
     {
         try
         {
-            Application.LoadLevel(SceneName);
+            SceneManager.LoadScene(SceneName);
         }
         catch
         {

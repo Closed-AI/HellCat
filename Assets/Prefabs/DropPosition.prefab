@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6510219796997903496}
   m_Layer: 0
   m_Name: DropPosition
-  m_TagString: DamageObject
+  m_TagString: ShakeDamageObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
