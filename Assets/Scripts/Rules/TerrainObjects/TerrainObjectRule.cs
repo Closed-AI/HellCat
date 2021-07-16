@@ -9,7 +9,7 @@ public class TerrainObjectRule : Rule
 
     override public void Spawn(int id)
     {
-        // создание метеорита, назначение начальной позиции
+        // создание ловушки, назначение начальной позиции
         GameObject obj = Instantiate(arr[id].obj, new Vector2
             (
                 Random.Range(-rangeX, rangeX),

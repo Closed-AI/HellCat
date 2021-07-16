@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    //------------------------------------------------------------------------------------------------//
+    //                                     События игрока                                             //
+    //------------------------------------------------------------------------------------------------//
     // делегат события смерти
     public delegate void PlayerDeath();                
     public event PlayerDeath OnPlayerDeath;             // событие смерти
@@ -15,6 +19,7 @@ public class PlayerController : MonoBehaviour
     // делегат события замедления
     public delegate void PlayerSlowdown(bool state, SlowdownObject slowdownObject);   
     public event PlayerSlowdown OnPlayerSlowdown;       // событие замедления
+    //------------------------------------------------------------------------------------------------//
 
     [SerializeField] private float speed;               // скорость передвижения игрока
     [SerializeField] private FixedJoystick joystick;    // ссылка на джойстик
@@ -33,14 +38,15 @@ public class PlayerController : MonoBehaviour
         alive = true;
         rb = GetComponent<Rigidbody2D>();
 
-        OnPlayerDeath += TakeDamage;
-        OnPlayerFreeze += Freeze;
+        OnPlayerDeath    += TakeDamage;
+        OnPlayerFreeze   += Freeze;
         OnPlayerSlowdown += Slowdown;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // если игрок жив и не в деше -> перемещение
         if (alive && !isDash)
         {
             direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
@@ -48,15 +54,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // при смерти запускается эта корутина (добавить анимацию)
-    private IEnumerator deathAnimation()
+    // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        transform.rotation = Quaternion.Euler(0, 0, -90);
-        Vector3 newPos = transform.position;
-        transform.position = newPos;
+        if (collision.tag == "DamageObject")
+            OnPlayerDeath?.Invoke();
+        else if (collision.tag == "FreezeObject")
+            OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
+        else if (collision.tag == "SlowdownObject")
+            OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
+    }
 
-        yield return new WaitForSeconds(1.5f);
-        Application.LoadLevel("Retry");
+    // при выходе из триггера (обработак конца взаимодействия с зоной замеделения, стана и т.д.)
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "FreezeObject")
+            OnPlayerFreeze?.Invoke(false, collision.GetComponent<FreezeObject>());
+        else if (collision.tag == "SlowdownObject")
+            OnPlayerSlowdown?.Invoke(false, collision.GetComponent<SlowdownObject>());
     }
 
     // выполняется в OnPlayerDeath
@@ -65,6 +80,7 @@ public class PlayerController : MonoBehaviour
         alive = false;
         StartCoroutine(deathAnimation());
     }
+
     // выполняется в OnPlayerFreeze
     private void Freeze(bool state, FreezeObject freezeObject)
     {
@@ -77,11 +93,24 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Freezing(freezeObject));
         }
     }
+
     // выполняется в OnPlayerSlowdown
     private void Slowdown(bool state, SlowdownObject slowdownObject)
     {
         speedModifier = state ? slowdownObject.SpeedModifier : 1;
     }
+
+    // при смерти запускается эта корутина (добавить анимацию)
+    private IEnumerator deathAnimation()
+    {
+        transform.rotation = Quaternion.Euler(0, 0, -90);
+        Vector3 newPos = transform.position;
+        transform.position = newPos;
+
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("Retry");
+    }
+
     // корутина для анимирования заморозки
     private IEnumerator Freezing(FreezeObject freezeObject)
     {
@@ -100,23 +129,6 @@ public class PlayerController : MonoBehaviour
         OnPlayerFreeze?.Invoke(false, freezeObject);
 
         freezeObject.Reload();
-    }
-    // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "DamageObject")
-            OnPlayerDeath?.Invoke();
-        else if (collision.tag == "FreezeObject")
-            OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
-        else if (collision.tag == "SlowdownObject")
-            OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "FreezeObject")
-            OnPlayerFreeze?.Invoke(false, collision.GetComponent<FreezeObject>());
-        else if (collision.tag == "SlowdownObject")
-            OnPlayerSlowdown?.Invoke(false, collision.GetComponent<SlowdownObject>());
     }
 
     // механика рывка (нуждается в переработке)

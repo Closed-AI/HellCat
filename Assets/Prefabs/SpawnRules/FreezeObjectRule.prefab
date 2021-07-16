@@ -47,6 +47,6 @@ MonoBehaviour:
   absSpawnRate: 0.8
   arr:
   - obj: {fileID: 7417796672014934089, guid: fc9fd8733e66660499ae57150314ef7d, type: 3}
-    spawnRate: 0
+    spawnRate: 1
   rangeX: 20
   rangeY: 20
