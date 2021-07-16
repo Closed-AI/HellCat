@@ -170,6 +170,8 @@ public class PlayerController : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
         }
         GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+
+        rb.velocity = new Vector2(0, 0);
         isDash = false;
     }
 }
