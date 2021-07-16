@@ -25,17 +25,12 @@ public class CameraScript : MonoBehaviour
             transform.position = new Vector3(transform.position.x + Random.Range(-offsetX, offsetX), transform.position.y + Random.Range(-offsetY, offsetY), transform.position.z);
             shaking -= Time.deltaTime;
         }
-
     }
 
 
     private void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.tag == "ShakeDamageObject")
-        {
             shaking = shakeDelay;
-        }
-
     }
-
 }

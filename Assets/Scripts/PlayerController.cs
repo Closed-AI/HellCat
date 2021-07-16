@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
         if (alive && !isDash)
         {
             direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
-            //
             rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
         }
 
@@ -62,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown("space"))
+        if (alive && Input.GetKeyDown("space"))
         {
             Dash();
         }
@@ -72,10 +71,8 @@ public class PlayerController : MonoBehaviour
     // при смерти запускается эта корутина (добавить анимацию)
     private IEnumerator deathAnimation()
     {
+        rb.drag = 100;
         transform.rotation = Quaternion.Euler(0, 0, -90);
-        Vector3 newPos = transform.position;
-        transform.position = newPos;
-
         yield return new WaitForSeconds(1.5f);
         Application.LoadLevel("Retry");
     }
@@ -159,7 +156,7 @@ public class PlayerController : MonoBehaviour
         direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
         for (int i = 0; i < 2 ; i++)
         {
-            rb.velocity = new Vector2(joystick.Horizontal * dashForce, joystick.Vertical * dashForce);
+            rb.velocity = new Vector2(joystick.Horizontal, joystick.Vertical) * dashForce;
             yield return new WaitForSeconds(0.05f);
             GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
         }
