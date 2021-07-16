@@ -53,6 +53,9 @@ public class Rule : MonoBehaviour
                 if (randVal <= arr[objectIndex].spawnRate)
                     break;
 
+            // для дебага, выпилить
+            Debug.Log(randVal);
+
             // сам спавн
             Spawn(objectIndex);
 

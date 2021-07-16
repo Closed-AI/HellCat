@@ -7,6 +7,10 @@ TagManager:
   - DamageObject
   - FreezeObject
   - SlowdownObject
+<<<<<<< HEAD
+=======
+  - ShakeDamageObject
+>>>>>>> Arseniy
   layers:
   - Default
   - TransparentFX

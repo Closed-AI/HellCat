@@ -20,16 +20,20 @@ public class PlayerController : MonoBehaviour
     public delegate void PlayerSlowdown(bool state, SlowdownObject slowdownObject);   
     public event PlayerSlowdown OnPlayerSlowdown;       // событие замедления
     //------------------------------------------------------------------------------------------------//
-
+    
     [SerializeField] private float speed;               // скорость передвижения игрока
+    [SerializeField] private float dashForce;           // сила рывка
+    [SerializeField] private float dashCooldown;        // время отката рывка
     [SerializeField] private FixedJoystick joystick;    // ссылка на джойстик
     private Vector2 direction;                          // направление движения игрока
     private Rigidbody2D rb;                             // Rigidbody игрока
 
     private float speedModifier = 1f;                   // модификатор скорости (для замедления или ускорения)
+    private float dashTime = -2;                         // время, прошедшее после рывка
 
     private bool alive;                                 // игрок жив    
     private bool isDash;                                // игрок в рывке
+
 
 
     // Start is called before the first frame update
@@ -52,12 +56,28 @@ public class PlayerController : MonoBehaviour
             direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
             rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
         }
+
+        if (dashTime > -2)
+            dashTime -= Time.deltaTime;
+        // цветовая пометка восстановления дэша (потом убрать)
+        if (dashTime > -0.2f && dashTime < 0)
+            GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f, 1f);
+        if (dashTime > -1f && dashTime <= -0.2f)
+            GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+
+
+        if (alive && Input.GetKeyDown("space"))
+        {
+            Dash();
+        }
     }
 
     // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "DamageObject")
+            OnPlayerDeath?.Invoke();
+        if (collision.tag == "ShakeDamageObject")
             OnPlayerDeath?.Invoke();
         else if (collision.tag == "FreezeObject")
             OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
@@ -98,15 +118,14 @@ public class PlayerController : MonoBehaviour
     private void Slowdown(bool state, SlowdownObject slowdownObject)
     {
         speedModifier = state ? slowdownObject.SpeedModifier : 1;
+        rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
     }
 
     // при смерти запускается эта корутина (добавить анимацию)
     private IEnumerator deathAnimation()
     {
+        rb.drag = 100;
         transform.rotation = Quaternion.Euler(0, 0, -90);
-        Vector3 newPos = transform.position;
-        transform.position = newPos;
-
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("Retry");
     }
@@ -131,23 +150,26 @@ public class PlayerController : MonoBehaviour
         freezeObject.Reload();
     }
 
-    // механика рывка (нуждается в переработке)
+    // механика рывка: вызывающая функция
     public void Dash()
     {
-        StartCoroutine(DashCorouitine());
+        if (alive && dashTime <= 0)
+            StartCoroutine(DashCorouitine());
     }
 
-    // механика рывка ( The kostil. Part 2)
+    // механика рывка: корутина
     private IEnumerator DashCorouitine()
     {
         isDash = true;
+        dashTime = dashCooldown;
         direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
-
         for (int i = 0; i < 2 ; i++)
         {
-            rb.MovePosition(rb.position + direction * 15 * speed * Time.deltaTime);
+            rb.velocity = new Vector2(joystick.Horizontal, joystick.Vertical) * dashForce;
             yield return new WaitForSeconds(0.05f);
+            GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
         }
+        GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
         isDash = false;
     }
 }
