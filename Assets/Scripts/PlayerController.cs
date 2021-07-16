@@ -73,27 +73,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "DamageObject")
-            OnPlayerDeath?.Invoke();
-        if (collision.tag == "ShakeDamageObject")
-            OnPlayerDeath?.Invoke();
+             if (collision.tag == "ShakeDamageObject")
+                OnPlayerDeath?.Invoke();
         else if (collision.tag == "FreezeObject")
-            OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
+                OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
         else if (collision.tag == "SlowdownObject")
-            OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
+                OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
     }
 
     // при выходе из триггера (обработак конца взаимодействия с зоной замеделения, стана и т.д.)
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "FreezeObject")
-            OnPlayerFreeze?.Invoke(false, collision.GetComponent<FreezeObject>());
+             if (collision.tag == "FreezeObject")
+                OnPlayerFreeze?.Invoke(false, collision.GetComponent<FreezeObject>());
         else if (collision.tag == "SlowdownObject")
-            OnPlayerSlowdown?.Invoke(false, collision.GetComponent<SlowdownObject>());
+                OnPlayerSlowdown?.Invoke(false, collision.GetComponent<SlowdownObject>());
     }
+
 
     // выполняется в OnPlayerDeath
     private void TakeDamage()

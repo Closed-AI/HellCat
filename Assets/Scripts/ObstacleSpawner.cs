@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class ObstacleSpawner : MonoBehaviour
 {
     // на уровне достаточно ОДНОГО объекта класса Spawner,
     // правила генерации ВСЕГО записать в массив rules
