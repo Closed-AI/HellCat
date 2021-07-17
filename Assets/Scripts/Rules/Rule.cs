@@ -25,22 +25,31 @@ public class Rule : MonoBehaviour
                                                    // ВАЖНО!!! поведение объекта определяется самим объектом, спавнер должен лишь задавать 
                                                    // начальные параметры (место спавна и т.д.)
 
-    // кешированные поля для случайного выбора объекта из списка arr (строка 19)
+    // кешированные поля для случайного выбора объекта из списка arr (строка 21)
     private int objectIndex;                       // индекс текущего объекта для спавна
     private float randVal;                         // значение генератора случайных чисел для определения objectIndex (строка 29)
 
-    // конвертация частот в диапазоны 
-    // ( в редакторе юнити вводятся относительные частоты, например: 0.7 0.2 0.1
-    //   а код работает с диапазонами, а именно 0.7 0.9 1.0
-    //   или [ 0; 0.7 ), [ 0.7; 0.9 ), [ 0.9; 1 ] (в функции SpawnCoroutine() (строка 55) 
-    //   происходит проверка случайного числа на пренадлежность к одному из этих диапазонов )
-    public void ConvertSpawnRates()
+    private bool spawnEnd;                         // флаг, отвечающий за прекращение спавна ( для перехода от основоного геймплея к паттерну )
+
+    private void Start()
     {
-        for (int i = 1; i < arr.Length; i++)
-            arr[i].spawnRate = arr[i].spawnRate + arr[i - 1].spawnRate;
+        spawnEnd = false;
     }
 
-    // виртуальный метод Spawn(), именно он будет вызываться в корутине SpawnCorutine() (строка 55) и определять правила спавна
+    public bool SpawnEnd
+    {
+        set
+        {
+            spawnEnd = value;
+        }
+
+        get
+        {
+            return spawnEnd;
+        }
+    }
+
+    // виртуальный метод Spawn(), именно он будет вызываться в корутине SpawnCorutine() (строка 44) и определять правила спавна
     // этот метод переопределяется в каждой конкретной реализации правила (классе, наследуемом от Rule)
     // [ смотри примеры: скрипты GlobalMeteorRule и AimMeteorRule ]
     // параметр id отвечает за то, какой именно объект из списка arr (строка 21) будет создан в текущей итерации
@@ -59,18 +68,36 @@ public class Rule : MonoBehaviour
         while (true)
         {
             // выбор объекта для спавна из списка arr (строка 21)
-            randVal = UnityEngine.Random.Range(0, 1);
+            randVal = UnityEngine.Random.Range(0f, 1f);
             for (objectIndex = 0; objectIndex < arr.Length; objectIndex++)
                 if (randVal <= arr[objectIndex].spawnRate)
                     break;
-
-            // для дебага, выпилить
-            Debug.Log(randVal);
 
             // сам спавн
             Spawn(objectIndex);
 
             yield return new WaitForSeconds(absSpawnRate);
+
+            if (spawnEnd) break;
         }
+    }
+
+    // конвертация частот в диапазоны 
+    // ( в редакторе юнити вводятся относительные частоты, например: 0.7 0.2 0.1
+    //   а код работает с диапазонами, а именно 0.7 0.9 1.0
+    //   или [ 0; 0.7 ), [ 0.7; 0.9 ), [ 0.9; 1 ] (в функции SpawnCoroutine() (строка 44) 
+    //   происходит проверка случайного числа на пренадлежность к одному из этих диапазонов )
+    public void ConvertSpawnRates()
+    {
+        for (int i = 1; i < arr.Length; i++)
+            arr[i].spawnRate = arr[i].spawnRate + arr[i - 1].spawnRate;
+    }
+
+    // метод, обратный ConvertSpawnRates() (строка 68)
+    // конвертация диапазонов в относительные частоты
+    public void ReversedConvertSpawnRates()
+    {
+        for (int i = arr.Length - 1; i > 0; i--)
+            arr[i].spawnRate = arr[i].spawnRate - arr[i - 1].spawnRate;
     }
 }

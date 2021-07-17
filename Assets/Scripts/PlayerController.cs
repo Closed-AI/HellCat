@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    //------------------------------------------------------------------------------------------------//
+    //                                     События игрока                                             //
+    //------------------------------------------------------------------------------------------------//
     // делегат события смерти
     public delegate void PlayerDeath();                
     public event PlayerDeath OnPlayerDeath;             // событие смерти
@@ -15,16 +19,17 @@ public class PlayerController : MonoBehaviour
     // делегат события замедления
     public delegate void PlayerSlowdown(bool state, SlowdownObject slowdownObject);   
     public event PlayerSlowdown OnPlayerSlowdown;       // событие замедления
-
+    //------------------------------------------------------------------------------------------------//
+    
     [SerializeField] private float speed;               // скорость передвижения игрока
     [SerializeField] private float dashForce;           // сила рывка
-    [SerializeField] private FixedJoystick joystick;    // ссылка на джойстик
     [SerializeField] private float dashCooldown;        // время отката рывка
-    private float dashTime = -2;                         // время, прошедшее после рывка
+    [SerializeField] private FixedJoystick joystick;    // ссылка на джойстик
     private Vector2 direction;                          // направление движения игрока
     private Rigidbody2D rb;                             // Rigidbody игрока
 
     private float speedModifier = 1f;                   // модификатор скорости (для замедления или ускорения)
+    private float dashTime = -2;                         // время, прошедшее после рывка
 
     private bool alive;                                 // игрок жив    
     private bool isDash;                                // игрок в рывке
@@ -37,19 +42,20 @@ public class PlayerController : MonoBehaviour
         alive = true;
         rb = GetComponent<Rigidbody2D>();
 
-        OnPlayerDeath += TakeDamage;
-        OnPlayerFreeze += Freeze;
+        OnPlayerDeath    += TakeDamage;
+        OnPlayerFreeze   += Freeze;
         OnPlayerSlowdown += Slowdown;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // если игрок жив и не в деше -> перемещение
         if (alive && !isDash)
         {
             direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
-            //
-            rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
+            
+            rb.MovePosition(rb.position + direction.normalized * speed * speedModifier * Time.deltaTime);
         }
 
         if (dashTime > -2)
@@ -61,24 +67,35 @@ public class PlayerController : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 
 
-
-        if (Input.GetKeyDown("space"))
+        if (alive && Input.GetKeyDown("space"))
         {
             Dash();
         }
-
     }
 
-    // при смерти запускается эта корутина (добавить анимацию)
-    private IEnumerator deathAnimation()
+
+    // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        transform.rotation = Quaternion.Euler(0, 0, -90);
-        Vector3 newPos = transform.position;
-        transform.position = newPos;
-
-        yield return new WaitForSeconds(1.5f);
-        Application.LoadLevel("Retry");
+        if (collision.tag == "DamageObject")
+                OnPlayerDeath?.Invoke();
+        else if (collision.tag == "ShakeDamageObject")
+                OnPlayerDeath?.Invoke();
+        else if (collision.tag == "FreezeObject")
+                OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
+        else if (collision.tag == "SlowdownObject")
+                OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
     }
+
+    // при выходе из триггера (обработак конца взаимодействия с зоной замеделения, стана и т.д.)
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+             if (collision.tag == "FreezeObject")
+                OnPlayerFreeze?.Invoke(false, collision.GetComponent<FreezeObject>());
+        else if (collision.tag == "SlowdownObject")
+                OnPlayerSlowdown?.Invoke(false, collision.GetComponent<SlowdownObject>());
+    }
+
 
     // выполняется в OnPlayerDeath
     private void TakeDamage()
@@ -86,6 +103,7 @@ public class PlayerController : MonoBehaviour
         alive = false;
         StartCoroutine(deathAnimation());
     }
+
     // выполняется в OnPlayerFreeze
     private void Freeze(bool state, FreezeObject freezeObject)
     {
@@ -98,11 +116,23 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Freezing(freezeObject));
         }
     }
+
     // выполняется в OnPlayerSlowdown
     private void Slowdown(bool state, SlowdownObject slowdownObject)
     {
         speedModifier = state ? slowdownObject.SpeedModifier : 1;
+        rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
     }
+
+    // при смерти запускается эта корутина (добавить анимацию)
+    private IEnumerator deathAnimation()
+    {
+        rb.drag = 100;
+        transform.rotation = Quaternion.Euler(0, 0, -90);
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("Retry");
+    }
+
     // корутина для анимирования заморозки
     private IEnumerator Freezing(FreezeObject freezeObject)
     {
@@ -122,36 +152,15 @@ public class PlayerController : MonoBehaviour
 
         freezeObject.Reload();
     }
-    // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "DamageObject")
-            OnPlayerDeath?.Invoke();
-        if (collision.tag == "ShakeDamageObject")
-            OnPlayerDeath?.Invoke();
-        else if (collision.tag == "FreezeObject")
-            OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
-        else if (collision.tag == "SlowdownObject")
-            OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "FreezeObject")
-            OnPlayerFreeze?.Invoke(false, collision.GetComponent<FreezeObject>());
-        else if (collision.tag == "SlowdownObject")
-            OnPlayerSlowdown?.Invoke(false, collision.GetComponent<SlowdownObject>());
-    }
 
-
-
-    // механика рывка (нуждается в переработке)
+    // механика рывка: вызывающая функция
     public void Dash()
     {
         if (alive && dashTime <= 0)
             StartCoroutine(DashCorouitine());
     }
 
-    // механика рывка ( The kostil. Part 2)
+    // механика рывка: корутина
     private IEnumerator DashCorouitine()
     {
         isDash = true;
@@ -159,11 +168,13 @@ public class PlayerController : MonoBehaviour
         direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
         for (int i = 0; i < 2 ; i++)
         {
-            rb.velocity = new Vector2(joystick.Horizontal * dashForce, joystick.Vertical * dashForce);
+            rb.velocity = new Vector2(joystick.Horizontal, joystick.Vertical) * dashForce;
             yield return new WaitForSeconds(0.05f);
             GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
         }
         GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+
+        rb.velocity = new Vector2(0, 0);
         isDash = false;
     }
 }

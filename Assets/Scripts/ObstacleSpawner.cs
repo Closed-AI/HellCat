@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class ObstacleSpawner : MonoBehaviour
 {
     // на уровне достаточно ОДНОГО объекта класса Spawner,
     // правила генерации ВСЕГО записать в массив rules
@@ -19,12 +19,19 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         // запуск всех спавнеров
         foreach (var rule in rules)
         {
             rule.ConvertSpawnRates();              // перевод относительных частот в диапазоны
             StartCoroutine(rule.SpawnCoroutine()); // запуск корутины спавнера
         }
+    }
+
+    // При уничтожении объекта спавнера происходит обратный
+    // переход от диапазонов к относительным частотам
+    private void OnDestroy()
+    {
+        foreach (var rule in rules)
+            rule.ReversedConvertSpawnRates();
     }
 }
