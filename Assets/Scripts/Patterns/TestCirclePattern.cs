@@ -35,8 +35,8 @@ public class TestCirclePattern : Pattern
 
         for (int i = 0; i < cnt; i++)
         {
-            Vector2 dropPoz = new Vector2(transform.position.x + radius * Mathf.Cos(i * deltaAngle),
-                                          transform.position.y + radius * Mathf.Sin(i * deltaAngle));
+            Vector2 dropPoz = new Vector2(transform.position.x + radius * Mathf.Cos(Mathf.Deg2Rad * i * deltaAngle),
+                                          transform.position.y + radius * Mathf.Sin(Mathf.Deg2Rad * i * deltaAngle));
 
             Meteor cur = Instantiate(meteor, dropPoz + Vector2.up * trajectoryLengthY, transform.rotation);
             cur.DropPoint = dropPoz;
