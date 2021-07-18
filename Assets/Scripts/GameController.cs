@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     private UnityAction PatternCompleted;
 
+    [SerializeField] private Text text;
     [SerializeField] private GameObject progressBar;
     [SerializeField] private ObstacleSpawner obstacleSpawner;
     [SerializeField] private PatternSpawner  patternSpawner;
@@ -23,6 +26,7 @@ public class GameController : MonoBehaviour
         score = 0;
         scoreSpeed = 1f / scoreSpeed;
         StartCoroutine(addScore());
+        text.text = "";
     }
 
     private IEnumerator addScore()
@@ -35,11 +39,20 @@ public class GameController : MonoBehaviour
         }
 
         obstacleSpawner.StopSpawn();
+        text.text = "Danger";
+        yield return new WaitForSeconds(1.5f);
+        text.text = "";
         patternSpawner.Spawn(PatternCompleted);
     }
 
+    private IEnumerator win()
+    {
+        text.text = "Win";
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("Retry");
+    }
     private void OnPatternCompleted()
     {
-        Debug.Log("PatternCompleted");
+        StartCoroutine(win());
     }
 }

@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDelay: 3
-  absSpawnRate: 0.5
+  absSpawnRate: 1
   arr:
   - obj: {fileID: 3416461467534418124, guid: 1f8a7fea852721c41bcca1be371ebd89, type: 3}
     spawnRate: 1
   offsetX: 3
   offsetY: 1
   trajectoryLenX: 3
-  trajectoryLenY: 10
+  trajectoryLenY: 12

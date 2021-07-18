@@ -10,7 +10,7 @@ public class PatternSpawner : MonoBehaviour
     
     public void Spawn(UnityAction action)
     {
-        int index = UnityEngine.Random.Range(0, patterns.Length - 1);
+        int index = UnityEngine.Random.Range(0, patterns.Length);
 
         Instantiate(patterns[index]).GetComponent<Pattern>().AddPatternEndListener(action);
     }
