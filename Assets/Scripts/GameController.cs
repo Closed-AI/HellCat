@@ -13,7 +13,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private float scoreSpeed; // очков в секунду (базовое значение, которое будет взаимодействовать с множителем счёта)
     [SerializeField] private int maxScore;
     private int score;
-    
 
     // Start is called before the first frame update
     void Start()

@@ -1,13 +1,9 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 <<<<<<< HEAD:Assets/Prefabs/Patterns/TestCirclePatternObject.prefab.meta
-guid: 5ec675e73df672042b1986614212a0aa
+guid: b22801b73bd7274428de4e986beb0900
 =======
 guid: 6325cd10434e7eb4d98f898347301318
 >>>>>>> 5e68be6e42115cd7a3748a5a93d59e833d80f1bd:Assets/Prefabs/ChessFire.prefab.meta
-=======
-guid: 5ec675e73df672042b1986614212a0aa
->>>>>>> 5e68be6e42115cd7a3748a5a93d59e833d80f1bd
 PrefabImporter:
   externalObjects: {}
   userData: 
