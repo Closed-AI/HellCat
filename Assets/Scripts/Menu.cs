@@ -10,6 +10,8 @@ public class Menu : MonoBehaviour
     public GameObject joystick;
     public GameObject dashButton;
     public GameObject screenPanels;
+    public GameObject progressBar;
+    public GameObject text;
 
     public void OnClickContinue()
     {
@@ -18,6 +20,8 @@ public class Menu : MonoBehaviour
         menuButton.SetActive(true);
         joystick.SetActive(true);
         dashButton.SetActive(true);
+        progressBar.SetActive(true);
+        text.SetActive(true);
     }
 
     public void OnClickExit()
@@ -49,5 +53,7 @@ public class Menu : MonoBehaviour
         menuButton.SetActive(false);
         joystick.SetActive(false);
         dashButton.SetActive(false);
+        progressBar.SetActive(false);
+        text.SetActive(false);
     }
 }

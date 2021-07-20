@@ -10,6 +10,11 @@ public class FreezeObject : MonoBehaviour
 
     private bool available = true;                      // состояние
 
+    private void Start()
+    {
+        StartCoroutine(Reloading());
+    }
+
     public float FreezingTime 
     {
         get { return freezingTime; }
@@ -26,12 +31,13 @@ public class FreezeObject : MonoBehaviour
     public void Reload()
     {
         StartCoroutine(Reloading());
+        Destroy(gameObject);
     }
 
     private IEnumerator Reloading()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        Color rstColor = spriteRenderer.color;
+        Color startColor = spriteRenderer.color;
 
         spriteRenderer.color = Color.red;
 
@@ -39,6 +45,6 @@ public class FreezeObject : MonoBehaviour
         yield return new WaitForSeconds(reloadingTime);
         available = true;
 
-        spriteRenderer.color = rstColor;
+        spriteRenderer.color = startColor;
     }
 }

@@ -1,28 +1,13 @@
 fileFormatVersion: 2
-guid: 7685bad19bae2e64693e602250635cf6
+guid: 233c9b69b7a13df4f8ac43c31710883b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -198938125430884413
-    second: Menu_0
+      213: 7185253795544875346
+    second: progress_bar_0
   - first:
-      213: -1909268238846872576
-    second: Menu_1
-  - first:
-      213: -275939537401066862
-    second: Menu_2
-  - first:
-      213: 2406227903653740696
-    second: Menu_3
-  - first:
-      213: -894268473198475317
-    second: Menu_4
-  - first:
-      213: 7585431397144717044
-    second: Menu_5
-  - first:
-      213: -2067535388042838268
-    second: Menu_6
+      213: -935050152472134685
+    second: progress_bar_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -52,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -108,25 +93,25 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 47
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 1
+    overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Menu_0
+      name: progress_bar_0
       rect:
         serializedVersion: 2
-        x: 59
-        y: 553
-        width: 114
-        height: 114
+        x: 0
+        y: 322
+        width: 3862
+        height: 327
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +119,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c7f86534da3d3df0800000000000000
-      internalID: -198938125430884413
+      spriteID: 251ca78024627b360800000000000000
+      internalID: 7185253795544875346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Menu_1
+      name: progress_bar_1
       rect:
         serializedVersion: 2
-        x: 259
-        y: 552
-        width: 114
-        height: 114
+        x: 79
+        y: 0
+        width: 3704
+        height: 159
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,113 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 004b89a07aae085e0800000000000000
-      internalID: -1909268238846872576
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Menu_2
-      rect:
-        serializedVersion: 2
-        x: 447
-        y: 548
-        width: 114
-        height: 114
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29a49b5e37aab2cf0800000000000000
-      internalID: -275939537401066862
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Menu_3
-      rect:
-        serializedVersion: 2
-        x: 643
-        y: 549
-        width: 114
-        height: 114
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8900ae59783a46120800000000000000
-      internalID: 2406227903653740696
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Menu_4
-      rect:
-        serializedVersion: 2
-        x: 815
-        y: 550
-        width: 114
-        height: 114
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bc78c29cf8be693f0800000000000000
-      internalID: -894268473198475317
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Menu_5
-      rect:
-        serializedVersion: 2
-        x: 101
-        y: 78
-        width: 802
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4f6e7e69aadd44960800000000000000
-      internalID: 7585431397144717044
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Menu_6
-      rect:
-        serializedVersion: 2
-        x: 242
-        y: 175
-        width: 508
-        height: 222
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 40f3823d483ae43e0800000000000000
-      internalID: -2067535388042838268
+      spriteID: 3eb39b627d80603f0800000000000000
+      internalID: -935050152472134685
       vertices: []
       indices: 
       edges: []
