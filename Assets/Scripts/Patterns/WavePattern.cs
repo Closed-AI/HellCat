@@ -1,95 +1,80 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class WavePoints
-{
-    public Transform pointA;
-    public Transform pointB;
-
-    public WavePoints(Transform pointA, Transform pointB)
-    {
-        this.pointA = pointA;
-        this.pointB = pointB;
-    }
-}
-[Serializable]
-public class WavePart
-{
-    public Transform[] waveTranforms;
-}
 public class WavePattern : Pattern
 {
-    [SerializeField] private WavePart[] waveParts;
-    [SerializeField] private Meteor meteor;
-    [SerializeField] private float trajectoryLengthY;
-    [SerializeField] private float meteorCount;
-    [SerializeField] private bool isRandom;
+    [SerializeField] private float startDelay;                      // задержка перед спавном
+    [SerializeField] private Meteor meteor;                         // префаб метеорита
+    [SerializeField] private float meteorCount;                     // количество метеоритов в линию
+    [SerializeField] private float trajectoryLengthY;               // высота спавна метеорита
 
-    private float waveCount;
-    private Transform playerTransform;
-    private List<WavePoints[]> wavePoints;
+    [SerializeField] private float[] angles;                        // количество углов - количество волн; значение угла - поворот этой волны
+    [SerializeField] private float wavesSpawnSpeed, wavesDistance;  // скорость генерации волны, растояние между волнами
+    [SerializeField] private Vector2 minBorderSpawn, maxBorderSpawn;// границы спавна
 
-    private const string pointAString = "pointA";
-    private const string pointBString = "pointB";
-    private const string playerString = "Player";
+    private Vector2 currentDirection;
+    private Vector2 currentPositionA, currentPositionB;
+    private Vector2 currentWaveCenter, endPosition;
 
-    // Start is called before the first frame update
     void Start()
     {
-        playerTransform = GameObject.FindGameObjectWithTag(playerString).transform;
-
-        InitializeWavePointsList();
-
-        waveCount = difficult;
+        InitializeNewDirection(angles[0]);
+        
         StartCoroutine(PatternRule());
-        Destroy(gameObject, duration*waveCount);
     }
-
     override protected IEnumerator PatternRule()
     {
-        for (int i = 0; i < waveCount; i++)
+        yield return new WaitForSeconds(startDelay);
+
+        for (int i = 0; i < angles.Length; i++)
         {
-            while(wavePoints.Count > 0)
+            InitializeNewDirection(angles[i]);
+
+            while (Vector2.Distance(currentWaveCenter, endPosition) > wavesDistance)
             {
-                int waveIndex = 0;
+                SpawnLine(currentPositionA, currentPositionB);
 
-                if (isRandom)
-                    waveIndex = UnityEngine.Random.Range(0, wavePoints.Count);
+                Vector2 deltaPosition = currentDirection * wavesDistance;
 
-                foreach (WavePoints wave in wavePoints[waveIndex])
-                {
-                    SpawnLine(playerTransform.position + wave.pointA.localPosition + wave.pointA.parent.localPosition, playerTransform.position + wave.pointB.localPosition + wave.pointB.parent.localPosition);
-                }
+                currentPositionA += deltaPosition;
+                currentPositionB += deltaPosition;
+                currentWaveCenter += deltaPosition;
 
-                wavePoints.RemoveAt(waveIndex);
-
-                yield return new WaitForSeconds(duration / waveCount);
+                // зависимость от сложности
+                yield return new WaitForSeconds(wavesSpawnSpeed/difficult);
             }
-
-            InitializeWavePointsList();
-            
-          //  yield return new WaitForSeconds(duration / waveCount);
         }
+
+        if (transform.parent != null && transform.parent.childCount < 2)
+            Destroy(this.transform.parent.gameObject);
+        else Destroy(this.gameObject);
     }
-    private void InitializeWavePointsList()
+    private void InitializeNewDirection(float angle)
     {
-        wavePoints = new List<WavePoints[]>();
-        for (int i = 0; i < waveParts.Length; i++)
-        {
-            WavePoints[] points = new WavePoints[waveParts[i].waveTranforms.Length];
-            wavePoints.Add(points);
+        float waveLength = Vector2.Distance(maxBorderSpawn, minBorderSpawn);
+        float radius = waveLength / 2f;
 
-            for (int j = 0; j < waveParts[i].waveTranforms.Length; j++)
-            {
-                wavePoints[i][j] = new WavePoints(
-                    waveParts[i].waveTranforms[j].Find(pointAString),
-                    waveParts[i].waveTranforms[j].Find(pointBString)
-                );
-                waveParts[i].waveTranforms[j].gameObject.SetActive(false);
-            }
-        }
+        currentWaveCenter = new Vector2(
+            Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+            Mathf.Sin(angle * Mathf.Deg2Rad) * radius
+        );
+        endPosition = -currentWaveCenter;
+
+        // Текущее направление
+        currentDirection = -currentWaveCenter.normalized;
+
+        // Текущая позиция
+        currentPositionA = new Vector2(
+            Mathf.Cos((90 + angle) * Mathf.Deg2Rad) * radius,
+            Mathf.Sin((90 + angle) * Mathf.Deg2Rad) * radius
+        );
+
+        currentPositionB = -currentPositionA;
+
+        // Позиция центра
+        currentPositionA += currentWaveCenter;
+        currentPositionB += currentWaveCenter;
     }
     private void SpawnLine(Vector2 a, Vector2 b)
     {
@@ -98,12 +83,12 @@ public class WavePattern : Pattern
 
         float deltaPosition = (b - a).magnitude / meteorCount;
 
-        for(int i = 0; i < meteorCount; i++)
+        for (int i = 0; i < meteorCount; i++)
         {
             Meteor newMeteor = Instantiate(meteor, currentPosition + Vector2.up * trajectoryLengthY, meteor.transform.rotation).GetComponent<Meteor>();
             newMeteor.DropPoint = currentPosition;
 
             currentPosition += deltaPosition * direction;
-        }    
+        }
     }
 }

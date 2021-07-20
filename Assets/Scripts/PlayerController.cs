@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
         // если игрок жив и не в деше -> перемещение
         if (alive && !isDash)
         {
-            direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
+            direction = joystick.Direction;
             
-            rb.MovePosition(rb.position + direction.normalized * speed * speedModifier * Time.deltaTime);
+            rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
         }
 
         if (dashTime > -2)

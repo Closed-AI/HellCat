@@ -16,4 +16,15 @@ public class SlowdownObject : MonoBehaviour
     {
         get { return speedModifier; }
     }
+
+    private void OnDestroy()
+    {
+        Collider2D collider2D = GetComponent<Collider2D>();
+
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, transform.localScale/2f, 0);
+
+        for (int i = 0; i < colliders.Length; i++)
+            if(colliders[i].tag == "Player")
+                colliders[i].BroadcastMessage("OnTriggerExit2D", collider2D);
+    }
 }
