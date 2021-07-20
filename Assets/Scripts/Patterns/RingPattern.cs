@@ -20,22 +20,26 @@ public class RingPattern : Pattern
 
     void Update()
     {
-        if (transform.localScale.x > size)
+        if (Time.timeScale != 0)
         {
-            transform.localScale -= new Vector3(speed * 0.5f, speed * 0.5f, 0) * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 1);
-        }
-        else
-        {
-            if (transform.position.x < targetX + 0.5f && transform.position.x > targetX - 0.5f && 
-                transform.position.y < targetY + 0.5f && transform.position.y > targetY - 0.5f)
+            if (transform.localScale.x > size)
             {
-                targetX = Random.Range(ArenaLeftPos, ArenaRightPos);
-                targetY = Random.Range(ArenaDownPos, ArenaUpPose);
-                posEnd = new Vector3(targetX, targetY, transform.position.z);
+                transform.localScale -= new Vector3(speed * 0.5f, speed * 0.5f, 0) * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 1);
             }
             else
-                transform.position = Vector3.MoveTowards(transform.position, posEnd, speed * 0.005f);
+            {
+                if (transform.position.x < targetX + 0.5f && transform.position.x > targetX - 0.5f &&
+                    transform.position.y < targetY + 0.5f && transform.position.y > targetY - 0.5f)
+                {
+                    targetX = Random.Range(ArenaLeftPos, ArenaRightPos);
+                    targetY = Random.Range(ArenaDownPos, ArenaUpPose);
+                    posEnd = new Vector3(targetX, targetY, transform.position.z);
+                }
+                else
+                    transform.position = Vector3.MoveTowards(transform.position, posEnd, speed * 0.005f);
+            }
         }
+
     }
 }
