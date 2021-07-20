@@ -16,7 +16,7 @@ public class Pattern : MonoBehaviour
 
     private void Start()
     {
-        //Destroy(gameObject, duration); костыль, переделать
+
     }
 
     virtual protected IEnumerator PatternRule()
@@ -31,6 +31,16 @@ public class Pattern : MonoBehaviour
 
     private void OnDestroy()
     {
-        PatternCompleted.Invoke();
+        // если игрок умерает, не пройдя паттерн,
+        // то объект GameController уничтожается раньше,
+        // чем паттерн и выкидывает ошибку
+        try
+        {
+            PatternCompleted.Invoke();
+        }
+        catch
+        {
+
+        }
     }
 }

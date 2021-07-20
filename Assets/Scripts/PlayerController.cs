@@ -77,7 +77,9 @@ public class PlayerController : MonoBehaviour
     // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-             if (collision.tag == "ShakeDamageObject")
+             if (collision.tag == "DamageObject")
+                OnPlayerDeath?.Invoke();
+        else if (collision.tag == "ShakeDamageObject")
                 OnPlayerDeath?.Invoke();
         else if (collision.tag == "FreezeObject")
                 OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
