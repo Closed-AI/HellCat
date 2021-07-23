@@ -1269,6 +1269,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fixed Joystick
       objectReference: {fileID: 0}
+    - target: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252,
+        type: 3}
+      propertyPath: deadZone
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2929252285020697096, guid: aaa2c939c0359ac4dbce3f49e8b90252,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2301,7 +2306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c862d2273a8d724da60eeaabb5c6995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 50
   dashForce: 40
   dashCooldown: 2
   joystick: {fileID: 1465203830}
