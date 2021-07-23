@@ -1986,7 +1986,7 @@ MonoBehaviour:
   patternSpawner: {fileID: 7706993331866971614, guid: e85dc2ec86af216499f6ebfa8304d386,
     type: 3}
   scoreSpeed: 10
-  maxScore: 10
+  maxScore: 200
 --- !u!4 &1440199163
 Transform:
   m_ObjectHideFlags: 0
