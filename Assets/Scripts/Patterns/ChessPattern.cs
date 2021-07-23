@@ -5,17 +5,20 @@ using UnityEngine;
 public class ChessPattern : Pattern
 {
     [SerializeField] private GameObject ChessFirePref;
-    [SerializeField] private float Distance;                                                   // должно быть 2, но если будем менять спрайты...
+    [SerializeField] private float Size;                                                       // Размер клеток доски не имеет значения, учитесь играть в шахматы, дети
     [SerializeField] private float ArenaLeftPos, ArenaRightPos, ArenaUpPose, ArenaDownPos;     // Крайние точки арены
     private float offset = 0;
 
 
     private float waveCount;
+    private float speed;
     // Start is called before the first frame update
     void Start()
     {
         // зависимость от сложности
         waveCount = difficult;
+        speed = (waveCount / duration);
+        ChessFirePref.transform.localScale = new Vector3(Size / 2f, Size / 2f, 0);
         StartCoroutine(PatternRule());
         Destroy(gameObject, duration);
     }
@@ -25,7 +28,7 @@ public class ChessPattern : Pattern
         for (int i = 0; i < waveCount; i++)
         {
             if (offset == 0)
-                offset = Distance;
+                offset = Size;
             else
                 offset = 0;
             SpawnChess();
@@ -36,16 +39,23 @@ public class ChessPattern : Pattern
 
     private void SpawnChess()
     {
-        for (float i = ArenaDownPos; i <= ArenaUpPose; i+= Distance)
+        float localOffset = offset;
+        GameObject ChessFieldPart;
+
+        for (float i = ArenaDownPos; i <= ArenaUpPose + Size/2f; i+= Size)
         {
-            for (float j = ArenaLeftPos + offset; j <= ArenaRightPos; j += Distance * 2)
+            for (float j = ArenaLeftPos + localOffset; j <= ArenaRightPos + Size / 2f; j += Size * 2) 
             {
-                Instantiate(ChessFirePref, new Vector2(j,i), transform.rotation);
+                ChessFieldPart = Instantiate(ChessFirePref, new Vector2(j, i), transform.rotation);
+                ChessFieldPart.GetComponent<Animator>().SetFloat("Speed", speed);
+                Destroy(ChessFieldPart.gameObject, 1f / speed);
             }
-            if (offset == 0)
-                offset = Distance;
+            if (localOffset == 0)
+                localOffset = Size;
             else
-                offset = 0;
+                localOffset = 0;
         }
+
+        
     }
 }

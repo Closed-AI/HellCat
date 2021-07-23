@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class WavePattern : Pattern
 {
-    [SerializeField] private float startDelay;                      // задержка перед спавном
-    [SerializeField] private Meteor meteor;                         // префаб метеорита
-    [SerializeField] private float meteorCount;                     // количество метеоритов в линию
-    [SerializeField] private float trajectoryLengthY;               // высота спавна метеорита
+    [SerializeField] private float startDelay;                       // задержка перед спавном
+    [SerializeField] private Meteor meteor;                          // префаб метеорита
+    [SerializeField] private float meteorSpeed;                      // скорость падения метеоритов
+    [SerializeField] private float meteorCount;                      // количество метеоритов в линию
+    [SerializeField] private float trajectoryLengthY;                // высота спавна метеорита
 
-    [SerializeField] private float[] angles;                        // количество углов - количество волн; значение угла - поворот этой волны
-    [SerializeField] private float wavesSpawnSpeed, wavesDistance;  // скорость генерации волны, растояние между волнами
-    [SerializeField] private Vector2 minBorderSpawn, maxBorderSpawn;// границы спавна
+    [SerializeField] private float[] angles;                         // количество углов - количество волн; значение угла - поворот этой волны
+    [SerializeField] private float wavesSpawnSpeed, wavesDistance;   // скорость генерации волны, растояние между волнами
+    [SerializeField] private Vector2 minBorderSpawn, maxBorderSpawn; // границы спавна
 
     private Vector2 currentDirection;
     private Vector2 currentPositionA, currentPositionB;
@@ -86,6 +87,7 @@ public class WavePattern : Pattern
         for (int i = 0; i < meteorCount; i++)
         {
             Meteor newMeteor = Instantiate(meteor, currentPosition + Vector2.up * trajectoryLengthY, meteor.transform.rotation).GetComponent<Meteor>();
+            newMeteor.Speed = meteorSpeed;
             newMeteor.DropPoint = currentPosition;
 
             currentPosition += deltaPosition * direction;

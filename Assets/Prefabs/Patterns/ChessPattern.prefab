@@ -47,7 +47,7 @@ MonoBehaviour:
   duration: 20
   ChessFirePref: {fileID: 3370322101050722716, guid: b22801b73bd7274428de4e986beb0900,
     type: 3}
-  Distance: 10
+  Distance: 5
   ArenaLeftPos: -22
   ArenaRightPos: 22
   ArenaUpPose: 15

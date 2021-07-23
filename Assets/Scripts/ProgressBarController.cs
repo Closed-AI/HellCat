@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class ProgressBarController : MonoBehaviour
 {
     [SerializeField] private Image progressBar;
-    //[SerializeField, Range(0f, 1f)]
     private float val;
 
     // Start is called before the first frame update

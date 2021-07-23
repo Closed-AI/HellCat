@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;                             // Rigidbody игрока
 
     private float speedModifier = 1f;                   // модификатор скорости (для замедления или ускорения)
-    private float dashTime = -2;                         // время, прошедшее после рывка
+    private float dashTime = -2;                        // время, прошедшее после рывка
 
     private bool alive;                                 // игрок жив    
     private bool isDash;                                // игрок в рывке
@@ -77,14 +77,17 @@ public class PlayerController : MonoBehaviour
     // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-             if (collision.tag == "DamageObject")
-                OnPlayerDeath?.Invoke();
-        else if (collision.tag == "ShakeDamageObject")
-                OnPlayerDeath?.Invoke();
-        else if (collision.tag == "FreezeObject")
-                OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
-        else if (collision.tag == "SlowdownObject")
-                OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
+        if (!isDash)
+        {
+                 if (collision.tag == "DamageObject")
+                    OnPlayerDeath?.Invoke();
+            else if (collision.tag == "ShakeDamageObject")
+                    OnPlayerDeath?.Invoke();
+            else if (collision.tag == "FreezeObject")
+                    OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
+            else if (collision.tag == "SlowdownObject")
+                    OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
+        }
     }
 
     // при выходе из триггера (обработак конца взаимодействия с зоной замеделения, стана и т.д.)
@@ -164,13 +167,13 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DashCorouitine()
     {
         isDash = true;
+        GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
         dashTime = dashCooldown;
         direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
         for (int i = 0; i < 2 ; i++)
         {
             rb.velocity = new Vector2(joystick.Horizontal, joystick.Vertical) * dashForce;
-            yield return new WaitForSeconds(0.05f);
-            GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
+            yield return new WaitForSeconds(0.05f);    
         }
         GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 

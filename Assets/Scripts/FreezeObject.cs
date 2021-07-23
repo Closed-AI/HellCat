@@ -31,6 +31,7 @@ public class FreezeObject : MonoBehaviour
     public void Reload()
     {
         StartCoroutine(Reloading());
+        Destroy(gameObject, freezingTime);
     }
 
     private IEnumerator Reloading()

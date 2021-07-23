@@ -15,21 +15,27 @@ public class Meteor : MonoBehaviour
     protected Color alphaColor;                         // параметры цвета спрайта (см предыдущая строка)
     protected float maxDistance;                        // длина пути
     protected float curDistance;                        // остаточная длина пути
-                                                      // две предыдущие переменные нужны для расчёта прозрачности спрайта красной зоны
+                                                        // две предыдущие переменные нужны для расчёта прозрачности спрайта красной зоны
 
     // чёртов шарп) это геттер и сеттер для dropZone (строка 13)
-    public Vector2 DropPoint 
-    { 
+    public Vector2 DropPoint
+    {
         get { return dropPoint; }
         set
-        { 
+        {
             dropPoint = value;
 
             if (dropZone == null)
             {
                 dropZone = Instantiate(dropZonePref, dropPoint, transform.rotation);
             }
-        } 
+        }
+    }
+
+    public float Speed
+    {
+        get { return speed; }
+        set { speed = value; }
     }
 
     // Start is called before the first frame update
@@ -58,17 +64,19 @@ public class Meteor : MonoBehaviour
         alphaColor.a = 1.25f - (curDistance / maxDistance);
         spriteRenderer.color = alphaColor;
 
-        // включение коллайдера при падении метеорита (теперь в зоне падения игрок будет умирать)
-        if (Vector2.Distance(rb.position, dropPoint) < 1f)
-        {
-            dropZone.GetComponent<CapsuleCollider2D>().enabled = true;
-        }
-
-        // удаление метеорита после падения
+        //  включение коллайдера при падении метеорита
+        // (теперь в зоне падения игрок будет умирать)
+        //  удаление метеорита после падения
         if (Vector2.Distance(rb.position, dropPoint) < 0.5f)
         {
-            Destroy(dropZone);
+            onDrop();
+            Destroy(dropZone, 0.2f);
             Destroy(this.gameObject);
         }
+    }
+
+    protected virtual void onDrop()
+    {
+        dropZone.GetComponent<CapsuleCollider2D>().enabled = true;
     }
 }

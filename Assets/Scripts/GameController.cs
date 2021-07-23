@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject progressBar;
     [SerializeField] private ObstacleSpawner obstacleSpawner;
     [SerializeField] private PatternSpawner  patternSpawner;
-    [SerializeField] private float scoreSpeed; // очков в секунду (базовое значение, которое будет взаимодействовать с множителем счёта)
+    [SerializeField] private float scoreSpeed;                // очков в секунду (базовое значение, которое будет взаимодействовать с множителем счёта)
     [SerializeField] private int maxScore;
     private int score;
 
@@ -45,14 +45,15 @@ public class GameController : MonoBehaviour
         patternSpawner.Spawn(PatternCompleted);
     }
 
-    private IEnumerator win()
+    private IEnumerator Win()
     {
-        text.text = "Win";
+        if (text != null)
+            text.text = "Win";
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("Retry");
     }
     private void OnPatternCompleted()
     {
-        StartCoroutine(win());
+        StartCoroutine(Win());
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
+    // тряска камеры
     [SerializeField] private float shakeDelay;          // длительность тряски
     [SerializeField] private float offsetX, offsetY;    // сила тряски по x и y
+
+    // слежение за игроком
     [SerializeField] private GameObject player;         // ссылка на GameObject игрока для отслеживания позиции   
     [SerializeField] private float smooth;              // Значение, используемое для интерполяции между a и b
                                                         // если значение smooth - 1 - камера переместится к персонажу на один кадр

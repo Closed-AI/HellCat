@@ -29,26 +29,6 @@ public class Rule : MonoBehaviour
     private int objectIndex;                       // индекс текущего объекта для спавна
     private float randVal;                         // значение генератора случайных чисел для определения objectIndex (строка 29)
 
-    private bool spawnEnd;                         // флаг, отвечающий за прекращение спавна ( для перехода от основоного геймплея к паттерну )
-
-    private void Start()
-    {
-        spawnEnd = false;
-    }
-
-    public bool SpawnEnd
-    {
-        set
-        {
-            spawnEnd = value;
-        }
-
-        get
-        {
-            return spawnEnd;
-        }
-    }
-
     // виртуальный метод Spawn(), именно он будет вызываться в корутине SpawnCorutine() (строка 44) и определять правила спавна
     // этот метод переопределяется в каждой конкретной реализации правила (классе, наследуемом от Rule)
     // [ смотри примеры: скрипты GlobalMeteorRule и AimMeteorRule ]
@@ -77,8 +57,6 @@ public class Rule : MonoBehaviour
             Spawn(objectIndex);
 
             yield return new WaitForSeconds(absSpawnRate);
-
-            if (spawnEnd) break;
         }
     }
 

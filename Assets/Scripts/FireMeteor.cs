@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class FireMeteor : Meteor
 {
-    [SerializeField] private GameObject FirePref; // префаб огня
-    private bool created = false;                 // бул (сзодана ли огненая зона) для избежания многократного создания
+    [SerializeField] private GameObject FirePref;       // префаб огня
+    [SerializeField] private float fireZoneLifeTime;    // задержка перед исчезновением огненой зоны
+    private bool created = false;                       // бул (сзодана ли огненая зона) для избежания многократного создания
 
-
-    // костыль (выполняется Update() метеора и FixedUpdate() текущего класса
-    // переписать под обсервер
-    private void FixedUpdate()
+    override protected void onDrop()
     {
-        if (!created && Vector2.Distance(rb.position, dropPoint) < 1f)
+        if (!created)
         {
             created = true;
-            Instantiate(FirePref, dropZone.transform.position, Quaternion.identity);
+            GameObject fireZone = Instantiate(FirePref, dropZone.transform.position, Quaternion.identity);
+            Destroy(fireZone, fireZoneLifeTime);
         }
     }
 }

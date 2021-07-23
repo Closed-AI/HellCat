@@ -130,13 +130,13 @@ MonoBehaviour:
   difficult: 3
   duration: 15
   meteor: {fileID: 2513344947586821135, guid: 1f8a7fea852721c41bcca1be371ebd89, type: 3}
-  meteorCount: 20
-  meteorDelay: 1
+  meteorCount: 25
+  meteorDelay: 1.5
   trajectoryLengthY: 10
   holeTransform: {fileID: 3002940340657469671}
-  centerForceAmount: 800
-  normalForceAmount: 1000
-  deltaCurveAngle: 10
+  centerForceAmount: 600
+  normalForceAmount: 600
+  deltaCurveAngle: 5
   curveSize: {x: 40, y: 600}
   meteorCurve:
     serializedVersion: 2

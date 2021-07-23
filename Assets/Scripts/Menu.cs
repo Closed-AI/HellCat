@@ -5,23 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-
-    public GameObject menuButton;
-    public GameObject joystick;
-    public GameObject dashButton;
-    public GameObject screenPanels;
-    public GameObject progressBar;
-    public GameObject text;
+    public GameObject gameUI;
+    public GameObject menuUI;
 
     public void OnClickContinue()
     {
         Time.timeScale = 1;
-        screenPanels.SetActive(false);
-        menuButton.SetActive(true);
-        joystick.SetActive(true);
-        dashButton.SetActive(true);
-        progressBar.SetActive(true);
-        text.SetActive(true);
+        menuUI.SetActive(false);
+        gameUI.SetActive(true);
     }
 
     public void OnClickExit()
@@ -49,11 +40,7 @@ public class Menu : MonoBehaviour
     public void OnClickMenu()
     {
         Time.timeScale = 0;
-        screenPanels.SetActive(true);
-        menuButton.SetActive(false);
-        joystick.SetActive(false);
-        dashButton.SetActive(false);
-        progressBar.SetActive(false);
-        text.SetActive(false);
+        menuUI.SetActive(true);
+        gameUI.SetActive(false);
     }
 }

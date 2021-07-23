@@ -23,15 +23,13 @@ public class ObstacleSpawner : MonoBehaviour
         foreach (var rule in rules)
         {
             rule.ConvertSpawnRates();
-            rule.SpawnEnd = false;                 // перевод относительных частот в диапазоны
             StartCoroutine(rule.SpawnCoroutine()); // запуск корутины спавнера
         }
     }
 
     public void StopSpawn()
     {
-        foreach (var rule in rules)
-            rule.SpawnEnd = true;
+        StopAllCoroutines();
     }
 
     // При уничтожении объекта спавнера происходит обратный

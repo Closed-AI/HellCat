@@ -260,3 +260,5 @@ MonoBehaviour:
   speed: 30
   FirePref: {fileID: 6224918842869069399, guid: a5604eb53fb2725408e22e18eb813f3d,
     type: 3}
+  fireZoneLifeTime: 3
+  created: 0
