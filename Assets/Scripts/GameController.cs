@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
 {
     private UnityAction PatternCompleted;
 
+    [SerializeField] private GameObject player;
     [SerializeField] private Text text;
     [SerializeField] private GameObject progressBar;
     [SerializeField] private ObstacleSpawner obstacleSpawner;
@@ -20,7 +21,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PatternCompleted += OnPatternCompleted;
+        player.GetComponent<PlayerController>().OnPlayerDeath += StopScoring;
+        PatternCompleted += OnPatternCompleted;  // удалить эту строку, когда сделаешь бесконечный режим
         // спавн начинается только при создании нового объекта
         obstacleSpawner = Instantiate(obstacleSpawner);
         score = 0;
@@ -31,6 +33,9 @@ public class GameController : MonoBehaviour
 
     private IEnumerator addScore()
     {
+        // переписать код прогресс бара, для начала сделать паттерны каждые N очков
+        // ( под это дело, которое N можно сделать новую переменную для инспектора
+        //  что нибудь вроде patternScore )
         while (score < maxScore)
         {
             score++;
@@ -40,11 +45,12 @@ public class GameController : MonoBehaviour
 
         obstacleSpawner.StopSpawn();
         text.text = "Danger";
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.5f); // задержка между концом волны и началом паттерна
         text.text = "";
         patternSpawner.Spawn(PatternCompleted);
     }
 
+    // удалить, когда сделаешь бесконечный режим
     private IEnumerator Win()
     {
         if (text != null)
@@ -52,8 +58,15 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("Retry");
     }
+
+    // удалить, когда сделаешь бесконечный режим
     private void OnPatternCompleted()
     {
         StartCoroutine(Win());
+    }
+
+    private void StopScoring()
+    {
+        // тут прописать остановку корутины в классе - счётчике очков
     }
 }

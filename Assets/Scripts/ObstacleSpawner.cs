@@ -27,6 +27,10 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
+    public void StartSpawn()
+    {
+        // переписать сюда код из старта, а в старте его удалить
+    }
     public void StopSpawn()
     {
         StopAllCoroutines();

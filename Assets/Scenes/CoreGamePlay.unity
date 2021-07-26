@@ -1979,6 +1979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc349b5df97cad4987bcc1db2b288b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1605489369}
   text: {fileID: 1773640691}
   progressBar: {fileID: 269945699}
   obstacleSpawner: {fileID: 3783729029125527169, guid: be41e08af24d6334ba3198cae810e46e,
