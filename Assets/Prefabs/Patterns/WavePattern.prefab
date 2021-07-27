@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4da808bfe287b9f44923ed7f2b966979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficult: 2
+  difficult: 4
   duration: 10
   startDelay: 0
   meteor: {fileID: 2513344947586821135, guid: 1f8a7fea852721c41bcca1be371ebd89, type: 3}
@@ -53,7 +53,8 @@ MonoBehaviour:
   angles:
   - 180
   - 0
+  - 90
   wavesSpawnSpeed: 1
   wavesDistance: 3
-  minBorderSpawn: {x: -22, y: -16}
-  maxBorderSpawn: {x: 22, y: 16}
+  minBorderSpawn: {x: -26, y: -16}
+  maxBorderSpawn: {x: 26, y: 16}

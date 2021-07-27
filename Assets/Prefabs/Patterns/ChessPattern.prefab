@@ -43,12 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e934e0499f032b4daa7c24e73b1fc42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficult: 10
-  duration: 20
+  difficult: 6
+  duration: 10
   ChessFirePref: {fileID: 3370322101050722716, guid: b22801b73bd7274428de4e986beb0900,
     type: 3}
-  Size: 5
-  ArenaLeftPos: -22
-  ArenaRightPos: 22
-  ArenaUpPose: 15
-  ArenaDownPos: -15
+  Size: 4
+  ArenaLeftPos: -29
+  ArenaRightPos: 29
+  ArenaUpPose: 17
+  ArenaDownPos: -17
