@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: 233c9b69b7a13df4f8ac43c31710883b
+guid: 722db441556e8504ba49c13de1db827a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7185253795544875346
-    second: progress_bar_0
+      213: 6904219460542411274
+    second: Score_0
   - first:
-      213: -935050152472134685
-    second: progress_bar_1
+      213: -7569662823521131118
+    second: Score_1
+  - first:
+      213: -7980772567291914239
+    second: Score_2
+  - first:
+      213: -8065137392439791527
+    second: Score_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -93,25 +99,25 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 47
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: progress_bar_0
+      name: Score_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 322
-        width: 3862
-        height: 327
+        x: 24
+        y: 265
+        width: 66
+        height: 65
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -119,20 +125,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 251ca78024627b360800000000000000
-      internalID: 7185253795544875346
+      spriteID: a0238fce407b0df50800000000000000
+      internalID: 6904219460542411274
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: progress_bar_1
+      name: Score_1
       rect:
         serializedVersion: 2
-        x: 79
-        y: 0
-        width: 3704
-        height: 159
+        x: 117
+        y: 28
+        width: 770
+        height: 431
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +146,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3eb39b627d80603f0800000000000000
-      internalID: -935050152472134685
+      spriteID: 295ea8e84c723f690800000000000000
+      internalID: -7569662823521131118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Score_2
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 28
+        width: 385
+        height: 431
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 108126d42a99e3190800000000000000
+      internalID: -7980772567291914239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Score_3
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 28
+        width: 385
+        height: 431
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 950f7e2c540e21090800000000000000
+      internalID: -8065137392439791527
       vertices: []
       indices: 
       edges: []

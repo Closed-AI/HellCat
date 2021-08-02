@@ -23,22 +23,25 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private float speed;               // скорость передвижения игрока
     [SerializeField] private float dashForce;           // сила рывка
-    [SerializeField] private float dashCooldown;        // время отката рывка
+    public float dashCooldown;        // время отката рывка
     [SerializeField] private FixedJoystick joystick;    // ссылка на джойстик
     private Vector2 direction;                          // направление движения игрока
     private Rigidbody2D rb;                             // Rigidbody игрока
 
     private float speedModifier = 1f;                   // модификатор скорости (для замедления или ускорения)
-    private float dashTime = -2;                        // время, прошедшее после рывка
+    public float dashTime;                        // время, прошедшее после рывка
 
-    private bool alive;                                 // игрок жив    
-    private bool isDash;                                // игрок в рывке
+    public bool alive;                                 // игрок жив    
+    public bool isDash;                                // игрок в рывке
+
+    public GameObject FinalScreen;                           // окно финального счёта
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        dashTime = dashCooldown;
         alive = true;
         rb = GetComponent<Rigidbody2D>();
 
@@ -58,13 +61,8 @@ public class PlayerController : MonoBehaviour
             rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
         }
 
-        if (dashTime > -2)
-            dashTime -= Time.deltaTime;
-        // цветовая пометка восстановления дэша (потом убрать)
-        if (dashTime > -0.2f && dashTime < 0)
-            GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 0f, 1f);
-        if (dashTime > -1f && dashTime <= -0.2f)
-            GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+        if (dashTime < dashCooldown)
+            dashTime += Time.deltaTime;
 
 
         if (alive && Input.GetKeyDown("space"))
@@ -133,7 +131,7 @@ public class PlayerController : MonoBehaviour
         rb.drag = 100;
         transform.rotation = Quaternion.Euler(0, 0, -90);
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene("Retry");
+        FinalScreen.SetActive(true);
     }
 
     // корутина для анимирования заморозки
@@ -159,7 +157,7 @@ public class PlayerController : MonoBehaviour
     // механика рывка: вызывающая функция
     public void Dash()
     {
-        if (alive && dashTime <= 0)
+        if (alive && dashTime >= dashCooldown)
             StartCoroutine(DashCorouitine());
     }
 
@@ -168,7 +166,7 @@ public class PlayerController : MonoBehaviour
     {
         isDash = true;
         GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
-        dashTime = dashCooldown;
+        dashTime = 0;
         direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
         for (int i = 0; i < 2 ; i++)
         {
