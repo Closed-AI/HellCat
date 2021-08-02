@@ -43,12 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda7c2b62bf5b5a4ba682c9556c04fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startDelay: 1
-  absSpawnRate: 1
+  startDelay: 3
+  absSpawnRate: 2
   arr:
   - obj: {fileID: 4432444643428195186, guid: 0ef299e551b6e8e41a7d98a6abbea738, type: 3}
     spawnRate: 0.75
   - obj: {fileID: 7417796672014934089, guid: fc9fd8733e66660499ae57150314ef7d, type: 3}
     spawnRate: 0.25
-  rangeX: 20
-  rangeY: 15
+  rangeX: 27
+  rangeY: 18
