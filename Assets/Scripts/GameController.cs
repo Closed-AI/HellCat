@@ -7,66 +7,75 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    [Header("Speed of adding score points")]
+    public float scoreSpeed;                                       // очков в секунду (базовое значение, которое будет взаимодействовать с множителем счёта)
+
+    [Header("Quiet time before and after the pattern")]
+    [SerializeField] private int respiteBefore;
+    [SerializeField] private int respiteAfter;
+
+    [Header("The number of points required to start the pattern")]
+    public int patternScore;
+
     private UnityAction PatternCompleted;
 
     [SerializeField] private GameObject player;
-    [SerializeField] private Text text;
-    [SerializeField] private GameObject progressBar;
     [SerializeField] private ObstacleSpawner obstacleSpawner;
-    [SerializeField] private PatternSpawner  patternSpawner;
-    [SerializeField] private float scoreSpeed;                // очков в секунду (базовое значение, которое будет взаимодействовать с множителем счёта)
-    [SerializeField] private int maxScore;
-    private int score;
+    [SerializeField] private PatternSpawner patternSpawner;
 
-    // Start is called before the first frame update
+    private float scoreForCount;
+    private int patternConstScore;
+
     void Start()
     {
-        player.GetComponent<PlayerController>().OnPlayerDeath += StopScoring;
-        PatternCompleted += OnPatternCompleted;  // удалить эту строку, когда сделаешь бесконечный режим
+        //player.GetComponent<PlayerController>().OnPlayerDeath += StopScoring;     
         // спавн начинается только при создании нового объекта
+        PatternCompleted += OnPatternCompleted;
         obstacleSpawner = Instantiate(obstacleSpawner);
-        score = 0;
         scoreSpeed = 1f / scoreSpeed;
-        StartCoroutine(addScore());
-        text.text = "";
+        StartScoring();
+        obstacleSpawner.StartSpawn();
+        patternConstScore = patternScore;
     }
 
-    private IEnumerator addScore()
+    void Update()
     {
-        // переписать код прогресс бара, для начала сделать паттерны каждые N очков
-        // ( под это дело, которое N можно сделать новую переменную для инспектора
-        //  что нибудь вроде patternScore )
-        while (score < maxScore)
+        if (player.GetComponent<PlayerController>().alive == false)
+            StopScoring();
+        scoreForCount = GameObject.Find("GameController").GetComponent<ScoreCounter>().score;
+        if (scoreForCount == patternScore)
         {
-            score++;
-            progressBar.GetComponent<ProgressBarController>().SetVal((float)score / maxScore);
-            yield return new WaitForSeconds(scoreSpeed);
+            patternScore += patternConstScore;
+            obstacleSpawner.StopSpawn();
+            StartCoroutine(SpawnPattern());
         }
+    }
 
-        obstacleSpawner.StopSpawn();
-        text.text = "Danger";
-        yield return new WaitForSeconds(1.5f); // задержка между концом волны и началом паттерна
-        text.text = "";
+    public IEnumerator SpawnPattern()
+    {
+        yield return new WaitForSeconds(respiteBefore);
         patternSpawner.Spawn(PatternCompleted);
     }
 
-    // удалить, когда сделаешь бесконечный режим
-    private IEnumerator Win()
+    public IEnumerator ObstacleActivate()
     {
-        if (text != null)
-            text.text = "Win";
-        yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene("Retry");
+        yield return new WaitForSeconds(respiteAfter);
+        obstacleSpawner.StartSpawn();
     }
 
-    // удалить, когда сделаешь бесконечный режим
     private void OnPatternCompleted()
     {
-        StartCoroutine(Win());
+        GetComponent<ScoreCounter>().PatternsNumber++;
+        StartCoroutine(ObstacleActivate());
+    }
+
+    private void StartScoring()
+    {
+        GetComponent<ScoreCounter>().StartScorer();
     }
 
     private void StopScoring()
     {
-        // тут прописать остановку корутины в классе - счётчике очков
+        GetComponent<ScoreCounter>().StopScorer();
     }
 }
