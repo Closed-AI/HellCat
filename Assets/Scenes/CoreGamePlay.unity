@@ -1648,8 +1648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7185253795544875346, guid: 233c9b69b7a13df4f8ac43c31710883b,
-    type: 3}
+  m_Sprite: {fileID: -20463605341815842, guid: 774c5a1f13fd2fa4397513dfd93abaac, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1910,7 +1909,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 25}
+  m_SizeDelta: {x: 615.65845, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1368543141
 MonoBehaviour:
@@ -1931,7 +1930,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -935050152472134685, guid: 233c9b69b7a13df4f8ac43c31710883b,
+  m_Sprite: {fileID: 1607671657096381541, guid: 774c5a1f13fd2fa4397513dfd93abaac,
     type: 3}
   m_Type: 3
   m_PreserveAspect: 0
@@ -1987,7 +1986,7 @@ MonoBehaviour:
   patternSpawner: {fileID: 7706993331866971614, guid: e85dc2ec86af216499f6ebfa8304d386,
     type: 3}
   scoreSpeed: 10
-  maxScore: 200
+  maxScore: 10
 --- !u!4 &1440199163
 Transform:
   m_ObjectHideFlags: 0

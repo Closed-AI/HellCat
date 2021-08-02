@@ -19,17 +19,16 @@ public class ObstacleSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // запуск всех спавнеров
+        // конвертация частот в диапазоны
         foreach (var rule in rules)
-        {
             rule.ConvertSpawnRates();
-            StartCoroutine(rule.SpawnCoroutine()); // запуск корутины спавнера
-        }
     }
 
     public void StartSpawn()
     {
-        // переписать сюда код из старта, а в старте его удалить
+        // запуск всех спавнеров
+        foreach (var rule in rules)
+            StartCoroutine(rule.SpawnCoroutine()); // запуск корутины спавнера
     }
     public void StopSpawn()
     {

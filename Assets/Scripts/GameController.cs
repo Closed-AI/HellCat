@@ -25,13 +25,14 @@ public class GameController : MonoBehaviour
         PatternCompleted += OnPatternCompleted;  // удалить эту строку, когда сделаешь бесконечный режим
         // спавн начинается только при создании нового объекта
         obstacleSpawner = Instantiate(obstacleSpawner);
+        obstacleSpawner.StartSpawn();
         score = 0;
         scoreSpeed = 1f / scoreSpeed;
-        StartCoroutine(addScore());
+        StartCoroutine(addScore()); // удалить
         text.text = "";
     }
 
-    private IEnumerator addScore()
+    private IEnumerator addScore() // удалить
     {
         // переписать код прогресс бара, для начала сделать паттерны каждые N очков
         // ( под это дело, которое N можно сделать новую переменную для инспектора
@@ -51,7 +52,7 @@ public class GameController : MonoBehaviour
     }
 
     // удалить, когда сделаешь бесконечный режим
-    private IEnumerator Win()
+    private IEnumerator Win() // удалить
     {
         if (text != null)
             text.text = "Win";

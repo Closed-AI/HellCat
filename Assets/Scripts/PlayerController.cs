@@ -74,19 +74,19 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // при вхождении в триггер (сюда добавлять все условия смерти, замедления и стана)
-    private void OnTriggerEnter2D(Collider2D collision)
+    // при нахождении в триггере (сюда добавлять все условия смерти, замедления и стана)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (!isDash)
         {
-                 if (collision.tag == "DamageObject")
-                    OnPlayerDeath?.Invoke();
+            if (collision.tag == "DamageObject")
+                OnPlayerDeath?.Invoke();
             else if (collision.tag == "ShakeDamageObject")
-                    OnPlayerDeath?.Invoke();
+                OnPlayerDeath?.Invoke();
             else if (collision.tag == "FreezeObject")
-                    OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
+                OnPlayerFreeze?.Invoke(true, collision.GetComponent<FreezeObject>());
             else if (collision.tag == "SlowdownObject")
-                    OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
+                OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
         }
     }
 

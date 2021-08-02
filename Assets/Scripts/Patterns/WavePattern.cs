@@ -38,8 +38,8 @@ public class WavePattern : Pattern
 
                 Vector2 deltaPosition = currentDirection * wavesDistance;
 
-                currentPositionA += deltaPosition;
-                currentPositionB += deltaPosition;
+                currentPositionA  += deltaPosition;
+                currentPositionB  += deltaPosition;
                 currentWaveCenter += deltaPosition;
 
                 // зависимость от сложности
