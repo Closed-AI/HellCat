@@ -50,15 +50,15 @@ public class ScoreScreen : MonoBehaviour
             if ((i % MoneyFromScore == 0) && (i != 0))
             {
                 audioS.PlayOneShot(coinDropAudio);
-                if (audioS.pitch < 1.01)
-                    audioS.pitch += 0.001f;
+                if (audioS.pitch < 1.02)
+                    audioS.pitch += 0.00001f;
             }    
-        yield return new WaitForSeconds(1f/ finalScore);
+        yield return null;
         }
         audioS.pitch = 1;
         yield return new WaitForSeconds(1);
 
-        for (int i = 0; i <= finalPatternsNumber; i++)                            // прибавление монет за паттерны
+        for (int i = 0; i < finalPatternsNumber; i++)                            // прибавление монет за паттерны
         {
             WavesText.text = "Waves: " + i.ToString();
             WavesMoneyText.text = "Money: " + (i * PatternPrice).ToString();

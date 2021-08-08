@@ -1062,6 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c4f20a4dca53f4458adbae211ce3366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreScreen: {fileID: 1720279301}
   shakeDelay: 0.3
   offsetX: 0.25
   offsetY: 0.25
@@ -1148,7 +1149,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 10, y: 5}
+  m_Size: {x: 13, y: 7}
   m_EdgeRadius: 0
 --- !u!50 &519420034
 Rigidbody2D:
@@ -2688,7 +2689,7 @@ MonoBehaviour:
   PatternsCount: {fileID: 889289418}
   progressBar: {fileID: 269945699}
   score: 0
-  PatternsNumber: 0
+  PatternsNumber: 1
 --- !u!224 &1465203829 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252,
@@ -3271,7 +3272,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d9e9082c2eb76094c943140cdee23e5f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3282,7 +3283,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!4 &1605489371
 Transform:
   m_ObjectHideFlags: 0
@@ -3351,10 +3352,10 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0013854504, y: 0.7014312}
+  m_Offset: {x: 0.0013854504, y: 0.79}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.47817767, y: 0.094215795}
+    pivot: {x: 0.47817767, y: 0.06824181}
     oldSize: {x: 7.63, y: 8.68}
     newSize: {x: 7.63, y: 8.68}
     adaptiveTilingThreshold: 0.5

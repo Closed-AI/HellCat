@@ -170,7 +170,8 @@ public class PlayerController : MonoBehaviour
         direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
         for (int i = 0; i < 2 ; i++)
         {
-            rb.velocity = new Vector2(joystick.Horizontal, joystick.Vertical) * dashForce;
+            rb.velocity = new Vector2((joystick.Horizontal/ Mathf.Sqrt(Mathf.Pow(joystick.Horizontal, 2) + Mathf.Pow(joystick.Vertical, 2))), 
+                (joystick.Vertical / Mathf.Sqrt(Mathf.Pow(joystick.Horizontal, 2) + Mathf.Pow(joystick.Vertical, 2)))) * dashForce;
             yield return new WaitForSeconds(0.05f);    
         }
         GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);

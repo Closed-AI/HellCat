@@ -209,7 +209,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2a1f3cba20f3e11498474a705db12fde, type: 3}
   m_Color: {r: 1, g: 0.903612, b: 0, a: 1}
   m_FlipX: 0
@@ -258,7 +258,6 @@ MonoBehaviour:
   dropZonePref: {fileID: 5528459412549470658, guid: 9bd61b2551dc9824f8ed6583484ba9ba,
     type: 3}
   speed: 30
-  FirePref: {fileID: 6224918842869069399, guid: a5604eb53fb2725408e22e18eb813f3d,
+  FirePref: {fileID: 2806379251294105028, guid: a5604eb53fb2725408e22e18eb813f3d,
     type: 3}
   fireZoneLifeTime: 3
-  created: 0
