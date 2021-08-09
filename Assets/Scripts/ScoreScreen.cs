@@ -68,7 +68,7 @@ public class ScoreScreen : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
-        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice)).ToString();
+        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + ((finalPatternsNumber - 1) * PatternPrice)).ToString();
         audioS.PlayOneShot(totalCoinsAudio);
         yield return new WaitForSeconds(0.5f);
         restartButton.SetActive(true);
@@ -82,9 +82,9 @@ public class ScoreScreen : MonoBehaviour
         StopAllCoroutines();
         ScoreText.text = "Score: " + finalScore.ToString();
         ScoreMoneyText.text = "Money: " + (finalScore / MoneyFromScore).ToString();
-        WavesText.text = "Waves: " + finalPatternsNumber.ToString();
-        WavesMoneyText.text = "Money: " + (finalPatternsNumber * PatternPrice).ToString();
-        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice)).ToString();
+        WavesText.text = "Waves: " + (finalPatternsNumber - 1).ToString();
+        WavesMoneyText.text = "Money: " + ((finalPatternsNumber - 1) * PatternPrice).ToString();
+        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + ((finalPatternsNumber - 1) * PatternPrice)).ToString();
         audioS.PlayOneShot(totalCoinsAudio);
         restartButton.SetActive(true);
         menuButton.SetActive(true);
