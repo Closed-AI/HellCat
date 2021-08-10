@@ -50,5 +50,5 @@ MonoBehaviour:
     spawnRate: 1
   rangeX: 27
   rangeY: 18
-  coinsAmount: 10
+  coinsAmount: 6
   radius: 3
