@@ -12,8 +12,8 @@ public class CoinsRule : Rule
     override public void Spawn(int id)
     {
         // создание монет, назначение начальной позиции
-        float spawnX = Random.Range(-rangeX, rangeX);
-        float spawnY = Random.Range(-rangeY, rangeY);
+        float spawnX = Random.Range(-rangeX + radius, rangeX - radius);
+        float spawnY = Random.Range(-rangeY + radius, rangeY - radius);
 
         for (int i = 0; i < coinsAmount; i++)
         {

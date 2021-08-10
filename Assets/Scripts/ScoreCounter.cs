@@ -26,7 +26,7 @@ public class ScoreCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ScoreText.text = score.ToString() + "\n" + coins.ToString(); //Отображаем очки
+        ScoreText.text = "Score: " + score.ToString() + "\nMoney: " + coins.ToString(); //Отображаем очки
         PatternsCount.text = PatternsNumber.ToString(); //Отображаем количество пройденых паттернов
         progressBar.GetComponent<ProgressBarController>().SetVal(ProgressbarValue / MaxProgressBarScore);
         if (ProgressbarValue > MaxProgressBarScore)
