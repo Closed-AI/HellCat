@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
+    public GameObject scoreScreen;
+
     // тряска камеры
     [SerializeField] private float shakeDelay;          // длительность тряски
     [SerializeField] private float offsetX, offsetY;    // сила тряски по x и y
@@ -24,7 +26,7 @@ public class CameraScript : MonoBehaviour
         posEnd = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, posEnd, smooth);
         // тряска камеры
-        if (shaking > 0)
+        if (shaking > 0 && scoreScreen.activeSelf == false)
         {
             transform.position = new Vector3(transform.position.x + Random.Range(-offsetX, offsetX), transform.position.y + Random.Range(-offsetY, offsetY), transform.position.z);
             shaking -= Time.fixedDeltaTime;

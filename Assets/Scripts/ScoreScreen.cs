@@ -16,8 +16,10 @@ public class ScoreScreen : MonoBehaviour
     [SerializeField] private Text ScoreMoneyText;
     [SerializeField] private Text WavesMoneyText;
     [SerializeField] private Text TotalMoneyText;
+    [SerializeField] private Text CoinsText;
 
     private int finalScore;
+    private int CoinsCount;
     private int finalPatternsNumber;
 
     private AudioSource audioS;
@@ -33,15 +35,28 @@ public class ScoreScreen : MonoBehaviour
     void Start()
     {
         finalScore = GameObject.Find("GameController").GetComponent<ScoreCounter>().score;
+        CoinsCount = GameObject.Find("GameController").GetComponent<ScoreCounter>().coins;
         finalPatternsNumber = GameObject.Find("GameController").GetComponent<ScoreCounter>().PatternsNumber;
         audioS = GetComponent<AudioSource>();
-        //Time.timeScale = 0;
         gameUI.SetActive(false);
     }
 
 
     IEnumerator Scoring()
     {
+        yield return new WaitForSeconds(1);
+
+        for (int i = 0; i <= CoinsCount; i++)                                      // прибавление монет за монеты 🤪
+        {
+            CoinsText.text = "Money: " + i.ToString();
+            if (i != 0)
+                audioS.PlayOneShot(coinDropAudio);
+            if (audioS.pitch < 1.02)
+                audioS.pitch += 0.00001f;
+            if (CoinsCount != 0)
+                yield return new WaitForSeconds(1f / CoinsCount);
+        }
+        audioS.pitch = 1;
         yield return new WaitForSeconds(1);
 
         for (int i = 0; i <= finalScore; i++)                                      // прибавление монет за очки
@@ -51,15 +66,15 @@ public class ScoreScreen : MonoBehaviour
             if ((i % MoneyFromScore == 0) && (i != 0))
             {
                 audioS.PlayOneShot(coinDropAudio);
-                if (audioS.pitch < 1.01)
-                    audioS.pitch += 0.001f;
+                if (audioS.pitch < 1.02)
+                    audioS.pitch += 0.00001f;
             }    
-        yield return new WaitForSeconds(1f/ finalScore);
+        yield return null;
         }
         audioS.pitch = 1;
         yield return new WaitForSeconds(1);
 
-        for (int i = 0; i <= finalPatternsNumber; i++)                            // прибавление монет за паттерны
+        for (int i = 0; i < finalPatternsNumber; i++)                            // прибавление монет за паттерны
         {
             WavesText.text = "Waves: " + i.ToString();
             WavesMoneyText.text = "Money: " + (i * PatternPrice).ToString();
@@ -69,7 +84,7 @@ public class ScoreScreen : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
-        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice)).ToString();
+        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + ((finalPatternsNumber - 1) * PatternPrice) + CoinsCount).ToString();
         audioS.PlayOneShot(totalCoinsAudio);
         yield return new WaitForSeconds(0.5f);
         restartButton.SetActive(true);
@@ -81,11 +96,12 @@ public class ScoreScreen : MonoBehaviour
     {
         skipButton.SetActive(false);
         StopAllCoroutines();
+        CoinsText.text = "Money: " + CoinsCount.ToString();
         ScoreText.text = "Score: " + finalScore.ToString();
         ScoreMoneyText.text = "Money: " + (finalScore / MoneyFromScore).ToString();
-        WavesText.text = "Waves: " + finalPatternsNumber.ToString();
-        WavesMoneyText.text = "Money: " + (finalPatternsNumber * PatternPrice).ToString();
-        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice)).ToString();
+        WavesText.text = "Waves: " + (finalPatternsNumber - 1).ToString();
+        WavesMoneyText.text = "Money: " + ((finalPatternsNumber - 1) * PatternPrice).ToString();
+        TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + ((finalPatternsNumber - 1) * PatternPrice) + CoinsCount).ToString();
         audioS.PlayOneShot(totalCoinsAudio);
 
         //---------------------------------------------------------
