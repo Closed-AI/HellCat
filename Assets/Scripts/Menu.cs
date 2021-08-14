@@ -7,12 +7,13 @@ public class Menu : MonoBehaviour
 {
     public GameObject gameUI;
     public GameObject menuUI;
+    public GameObject countdown;
 
     public void OnClickContinue()
     {
-        Time.timeScale = 1;
         menuUI.SetActive(false);
         gameUI.SetActive(true);
+        countdown.SetActive(true);
     }
 
     public void OnClickExit()
