@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -86,6 +87,12 @@ public class ScoreScreen : MonoBehaviour
         WavesMoneyText.text = "Money: " + (finalPatternsNumber * PatternPrice).ToString();
         TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice)).ToString();
         audioS.PlayOneShot(totalCoinsAudio);
+
+        //---------------------------------------------------------
+        SaveSystem.instance.AddMoney((finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice));
+        SaveSystem.instance.UpdateScore(finalScore);
+        //---------------------------------------------------------
+
         restartButton.SetActive(true);
         menuButton.SetActive(true);
     }

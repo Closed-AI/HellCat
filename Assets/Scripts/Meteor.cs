@@ -67,7 +67,7 @@ public class Meteor : MonoBehaviour
         //  включение коллайдера при падении метеорита
         // (теперь в зоне падения игрок будет умирать)
         //  удаление метеорита после падения
-        if (Vector2.Distance(rb.position, dropPoint) < 0.5f)
+        if (rb.position.y - dropPoint.y <= 0.1f)
         {
             onDrop();
             Destroy(dropZone, 0.2f);

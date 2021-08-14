@@ -8,6 +8,8 @@ public class Menu : MonoBehaviour
     public GameObject gameUI;
     public GameObject menuUI;
 
+    private const string META = "MetaGameplay";
+
     public void OnClickContinue()
     {
         Time.timeScale = 1;
@@ -22,8 +24,7 @@ public class Menu : MonoBehaviour
 
     public void OnClickMainMenu()
     {
-        //Time.timeScale = 1;
-        //SceneManager.LoadScene("сцена с меню");
+        SceneManager.LoadScene(META);
     }
 
     public void OnClickSound()
