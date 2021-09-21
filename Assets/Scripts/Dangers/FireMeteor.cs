@@ -10,11 +10,7 @@ public class FireMeteor : Meteor
 
     override protected void onDrop()
     {
-        if (!created)
-        {
-            created = true;
             GameObject fireZone = Instantiate(FirePref, dropZone.transform.position, Quaternion.identity);
             Destroy(fireZone, fireZoneLifeTime);
-        }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ScoreScreen : MonoBehaviour
 {
     [Header("Number of points per coin")]
-    [SerializeField] private int MoneyFromScore;             // цена одной монеты в очках
+    [SerializeField] private int MoneyFromScore;            // цена одной монеты в очках
     [Header("Price for one pattern")]
     [SerializeField] private int PatternPrice;              // цена одного паттерна в монетах
 
@@ -34,16 +34,21 @@ public class ScoreScreen : MonoBehaviour
 
     void Start()
     {
-        finalScore = GameObject.Find("GameController").GetComponent<ScoreCounter>().score;
-        CoinsCount = GameObject.Find("GameController").GetComponent<ScoreCounter>().coins;
-        finalPatternsNumber = GameObject.Find("GameController").GetComponent<ScoreCounter>().PatternsNumber;
+        var obj = GameObject.Find("GameController");
+
+        finalScore = obj.GetComponent<ScoreCounter>().score;
+        CoinsCount = obj.GetComponent<ScoreCounter>().coins;
+        finalPatternsNumber = obj.GetComponent<ScoreCounter>().PatternsNumber;
+
         audioS = GetComponent<AudioSource>();
         gameUI.SetActive(false);
     }
 
-
     IEnumerator Scoring()
     {
+        SaveSystem.Instance.AddMoney(CoinsCount + (finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice));
+        SaveSystem.Instance.UpdateScore(finalScore);
+
         yield return new WaitForSeconds(1);
 
         for (int i = 0; i <= CoinsCount; i++)                                      // прибавление монет за монеты 🤪
@@ -51,10 +56,7 @@ public class ScoreScreen : MonoBehaviour
             CoinsText.text = "Money: " + i.ToString();
             if (i != 0)
                 audioS.PlayOneShot(coinDropAudio);
-            if (audioS.pitch < 1.02)
-                audioS.pitch += 0.00001f;
-            if (CoinsCount != 0)
-                yield return new WaitForSeconds(1f / CoinsCount);
+            yield return null;
         }
         audioS.pitch = 1;
         yield return new WaitForSeconds(1);
@@ -66,10 +68,8 @@ public class ScoreScreen : MonoBehaviour
             if ((i % MoneyFromScore == 0) && (i != 0))
             {
                 audioS.PlayOneShot(coinDropAudio);
-                if (audioS.pitch < 1.02)
-                    audioS.pitch += 0.00001f;
+                yield return null;
             }    
-        yield return null;
         }
         audioS.pitch = 1;
         yield return new WaitForSeconds(1);
@@ -80,13 +80,13 @@ public class ScoreScreen : MonoBehaviour
             WavesMoneyText.text = "Money: " + (i * PatternPrice).ToString();
             if (i != 0)
                 audioS.PlayOneShot(manyCoinsDropAudio);
-            yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
 
-        yield return new WaitForSeconds(1);
         TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + ((finalPatternsNumber - 1) * PatternPrice) + CoinsCount).ToString();
         audioS.PlayOneShot(totalCoinsAudio);
         yield return new WaitForSeconds(0.5f);
+
         restartButton.SetActive(true);
         menuButton.SetActive(true);
         skipButton.SetActive(false);
@@ -103,11 +103,6 @@ public class ScoreScreen : MonoBehaviour
         WavesMoneyText.text = "Money: " + ((finalPatternsNumber - 1) * PatternPrice).ToString();
         TotalMoneyText.text = "Total money: " + ((finalScore / MoneyFromScore) + ((finalPatternsNumber - 1) * PatternPrice) + CoinsCount).ToString();
         audioS.PlayOneShot(totalCoinsAudio);
-
-        //---------------------------------------------------------
-        SaveSystem.instance.AddMoney((finalScore / MoneyFromScore) + (finalPatternsNumber * PatternPrice));
-        SaveSystem.instance.UpdateScore(finalScore);
-        //---------------------------------------------------------
 
         restartButton.SetActive(true);
         menuButton.SetActive(true);

@@ -47,6 +47,11 @@ public class Rule : MonoBehaviour
 
         while (true)
         {
+            // кулдаун в начале финкции для удобства управления спавном
+            // если не нужно спавнить объект данного типа
+            // достаточо установить огромный кулдаун
+            yield return new WaitForSeconds(absSpawnRate);
+
             // выбор объекта для спавна из списка arr (строка 21)
             randVal = UnityEngine.Random.Range(0f, 1f);
             for (objectIndex = 0; objectIndex < arr.Length; objectIndex++)
@@ -55,8 +60,6 @@ public class Rule : MonoBehaviour
 
             // сам спавн
             Spawn(objectIndex);
-
-            yield return new WaitForSeconds(absSpawnRate);
         }
     }
 

@@ -47,6 +47,7 @@ public class Meteor : MonoBehaviour
         // настройка спрайта зоны падения
         spriteRenderer = dropZone.GetComponent<SpriteRenderer>();
         alphaColor = spriteRenderer.color;
+
         maxDistance = Vector2.Distance(transform.position, dropPoint);
 
         // расчёт направления падения

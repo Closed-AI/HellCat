@@ -15,7 +15,7 @@ public class ScoreCounter : MonoBehaviour
     public int PatternsNumber = 0;
     private float ProgressbarValue = 0;
     private float scoreSpeed;
-    private int MaxProgressBarScore;
+    private float MaxProgressBarScore;
 
     void Start()
     {
@@ -26,8 +26,8 @@ public class ScoreCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ScoreText.text = "Score: " + score.ToString() + "\nMoney: " + coins.ToString(); //Отображаем очки
-        PatternsCount.text = PatternsNumber.ToString(); //Отображаем количество пройденых паттернов
+        ScoreText.text = "Score: " + score.ToString() + "\nMoney: " + coins.ToString();                   //Отображаем очки
+        PatternsCount.text = PatternsNumber.ToString();                                                   //Отображаем количество пройденых паттернов
         progressBar.GetComponent<ProgressBarController>().SetVal(ProgressbarValue / MaxProgressBarScore);
         if (ProgressbarValue > MaxProgressBarScore)
         {

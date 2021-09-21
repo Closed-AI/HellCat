@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FreezeObject : MonoBehaviour
@@ -46,5 +45,10 @@ public class FreezeObject : MonoBehaviour
         available = true;
 
         spriteRenderer.color = startColor;
+    }
+
+    private void OnDestroy()
+    {
+        
     }
 }

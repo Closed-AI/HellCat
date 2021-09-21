@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class MetaUI : MonoBehaviour
@@ -10,16 +8,10 @@ public class MetaUI : MonoBehaviour
     [SerializeField] private Text _maxScore;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _money.text    = "Money: "    + SaveSystem.instance.Money.ToString();
-        _curScore.text = "CurScore: " + SaveSystem.instance.CurScore.ToString();
-        _maxScore.text = "MaxScore: " + SaveSystem.instance.MaxScore.ToString();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _money.text    = "Money: "    + SaveSystem.Instance.Money.ToString();
+        _curScore.text = "CurScore: " + SaveSystem.Instance.CurScore.ToString();
+        _maxScore.text = "MaxScore: " + SaveSystem.Instance.MaxScore.ToString();
     }
 }
