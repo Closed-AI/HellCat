@@ -1,13 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     //------------------------------------------------------------------------------------------------//
     //                                     События игрока                                             //
     //------------------------------------------------------------------------------------------------//
+
     // делегат события смерти
     public delegate void PlayerDeath();                
     public event PlayerDeath OnPlayerDeath;             // событие смерти
@@ -23,27 +22,30 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private float speed;               // скорость передвижения игрока
     [SerializeField] private float dashForce;           // сила рывка
-    public float dashCooldown;        // время отката рывка
-    [SerializeField] private FixedJoystick joystick;    // ссылка на джойстик
+    [SerializeField] private float dashDuration;        // длительность рвыка
+    [SerializeField] public FixedJoystick joystick;    // ссылка на джойстик
+    public float dashCooldown;                          // время отката рывка
     private Vector2 direction;                          // направление движения игрока
-    private Rigidbody2D rb;                             // Rigidbody игрока
+    public Rigidbody2D rb;                             // Rigidbody игрока
 
     private float speedModifier = 1f;                   // модификатор скорости (для замедления или ускорения)
-    public float dashTime;                        // время, прошедшее после рывка
+    public float dashTime;                              // время, прошедшее после рывка
 
-    public bool alive;                                 // игрок жив    
-    public bool isDash;                                // игрок в рывке
+    public bool alive;                                  // игрок жив    
+    public bool isDash;                                 // игрок в рывке
+                                                        
+    public GameObject FinalScreen;                      // окно финального счёта
 
-    public GameObject FinalScreen;                           // окно финального счёта
-
-    Animator anim;
-
-
+    [SerializeField] private BonusesOnPlayer bonusPref; // бонусы
+    public float[]      bonusTime;                     // длительность бонусов
 
     // Start is called before the first frame update
     void Start()
     {
-        anim = GetComponent<Animator>();
+        bonusTime = new float[3];
+
+        for (int i = 0; i < bonusTime.Length; i++) bonusTime[i] = 0;
+
         dashTime = dashCooldown;
         alive = true;
         rb = GetComponent<Rigidbody2D>();
@@ -56,30 +58,27 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isDash && (joystick.Horizontal != 0 || joystick.Vertical != 0))
-            anim.SetInteger("CharacterAnimNumber", 1);
-        else if (isDash)
-            anim.SetInteger("CharacterAnimNumber", 2);
-        else
-            anim.SetInteger("CharacterAnimNumber", 0);
         // если игрок жив и не в деше -> перемещение
-        if (alive && !isDash)
+        if (alive && !isDash &&
+            ((bonusPref.bonuses[BONUS.DASH].activeSelf == true && !bonusPref.bonuses[BONUS.DASH].GetComponent<DashBonus>().isDash) ||
+              bonusPref.bonuses[BONUS.DASH].activeSelf == false))
         {
             direction = joystick.Direction;
-            
             rb.MovePosition(rb.position + direction * speed * speedModifier * Time.deltaTime);
-        }
 
+            if (Input.GetKeyDown("space"))
+                Dash();
+        }
+        
         if (dashTime < dashCooldown)
             dashTime += Time.deltaTime;
 
-
-        if (alive && Input.GetKeyDown("space"))
+        for (int i = 0; i < 3; i++)
         {
-            Dash();
+            bonusTime[i] -= Time.deltaTime;
+            if (bonusTime[i] <= 0) bonusPref.bonuses[i].SetActive(false);
         }
     }
-
 
     // при нахождении в триггере (сюда добавлять все условия смерти, замедления и стана)
     private void OnTriggerStay2D(Collider2D collision)
@@ -95,6 +94,27 @@ public class PlayerController : MonoBehaviour
             else if (collision.tag == "SlowdownObject")
                 OnPlayerSlowdown?.Invoke(true, collision.GetComponent<SlowdownObject>());
         }
+        
+        if (collision.tag == "Bonus")
+        {
+            switch (collision.GetComponent<BonusObject>().BonusType)
+            {
+                case BONUS.SHIELD:
+                    bonusPref.bonuses[BONUS.SHIELD].SetActive(true);
+                    bonusTime[BONUS.SHIELD] = SaveSystem.Instance.Progress[BONUS.SHIELD] + 5;
+                    break;
+                case BONUS.DASH:
+                    bonusPref.bonuses[BONUS.DASH].SetActive(true);
+                    bonusTime[BONUS.DASH] = SaveSystem.Instance.Progress[BONUS.DASH] + 5;
+                    break;
+                case BONUS.MAGNET:
+                    bonusPref.bonuses[BONUS.MAGNET].SetActive(true);
+                    bonusTime[BONUS.MAGNET] = SaveSystem.Instance.Progress[BONUS.MAGNET] + 5;
+                    break;
+            }
+
+            Destroy(collision.gameObject);
+        }
     }
 
     // при выходе из триггера (обработак конца взаимодействия с зоной замеделения, стана и т.д.)
@@ -106,10 +126,21 @@ public class PlayerController : MonoBehaviour
                 OnPlayerSlowdown?.Invoke(false, collision.GetComponent<SlowdownObject>());
     }
 
-
     // выполняется в OnPlayerDeath
     private void TakeDamage()
     {
+        if (bonusPref.bonuses[BONUS.SHIELD].activeSelf == true)
+        {
+            bonusPref.bonuses[BONUS.SHIELD].SetActive(false);
+            bonusTime[BONUS.SHIELD] = 0.2f;
+        }
+
+
+        if (bonusTime[BONUS.SHIELD]>0) return;
+
+        for (int i = 0; i < 3; i++)
+            bonusPref.bonuses[i].SetActive(false);
+
         alive = false;
         StartCoroutine(deathAnimation());
     }
@@ -118,7 +149,6 @@ public class PlayerController : MonoBehaviour
     private void Freeze(bool state, FreezeObject freezeObject)
     {
         bool hasFreezing = state && freezeObject.Available;
-
         speedModifier = hasFreezing ? 0 : 1;
 
         if (hasFreezing)
@@ -152,37 +182,40 @@ public class PlayerController : MonoBehaviour
         while(timer > 0)
         {
             timer -= Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, freezeObject.transform.position, Time.deltaTime* translationSpeed);
 
-            transform.position = Vector3.Lerp(transform.position, freezeObject.transform.position + new Vector3(0,0.5f,0), Time.deltaTime* translationSpeed);
-
-            yield return null;
+            yield return Time.deltaTime;
         }
 
         OnPlayerFreeze?.Invoke(false, freezeObject);
 
-        freezeObject.Reload();
+        if (freezeObject != null)
+            freezeObject.Reload();
     }
 
     // механика рывка: вызывающая функция
     public void Dash()
     {
-        if (alive && dashTime >= dashCooldown)
-            StartCoroutine(DashCorouitine());
+        if (alive)
+        {
+            if (dashTime >= dashCooldown)
+                StartCoroutine(DashCorouitine());
+            else if (bonusPref.bonuses[BONUS.DASH].activeSelf == true)
+                bonusPref.bonuses[BONUS.DASH].GetComponent<DashBonus>().Dash();
+        }
     }
 
     // механика рывка: корутина
-    private IEnumerator DashCorouitine()
+    public IEnumerator DashCorouitine()
     {
         isDash = true;
-        GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
         dashTime = 0;
-        direction = Vector2.up * joystick.Vertical + Vector2.right * joystick.Horizontal;
-        for (int i = 0; i < 2 ; i++)
-        {
-            rb.velocity = new Vector2((joystick.Horizontal/ Mathf.Sqrt(Mathf.Pow(joystick.Horizontal, 2) + Mathf.Pow(joystick.Vertical, 2))), 
-                (joystick.Vertical / Mathf.Sqrt(Mathf.Pow(joystick.Horizontal, 2) + Mathf.Pow(joystick.Vertical, 2)))) * dashForce;
-            yield return new WaitForSeconds(0.05f);    
-        }
+        GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.3f);
+
+        rb.velocity = new Vector2( joystick.Horizontal, joystick.Vertical).normalized * dashForce;
+
+        yield return new WaitForSeconds(dashDuration);
+
         GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
 
         rb.velocity = new Vector2(0, 0);

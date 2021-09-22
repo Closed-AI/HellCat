@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChessPattern : Pattern
 {
     [SerializeField] private GameObject ChessFirePref;
-    [SerializeField] private float Size;                                                       // Размер клеток доски не имеет значения
+    [SerializeField] private float Size;                                                       // Размер клеток доски
     [SerializeField] private float ArenaLeftPos, ArenaRightPos, ArenaUpPose, ArenaDownPos;     // Крайние точки арены
     private float offset = 0;
 

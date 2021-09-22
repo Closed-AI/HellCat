@@ -7,6 +7,7 @@ public class Coin : MonoBehaviour
     Animator anim;
     [SerializeField] private float lifeTime;
     private AudioSource audioS;
+    private ScoreCounter cash;
 
 
     void Start()
@@ -14,8 +15,8 @@ public class Coin : MonoBehaviour
         StartCoroutine(LifeDelay());
         audioS = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
+        cash = GameObject.Find("GameController").GetComponent<ScoreCounter>();
     }
-
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -23,8 +24,9 @@ public class Coin : MonoBehaviour
         {
             anim.SetInteger("CoinAnimNumber", 1);
             audioS.Play();
-            GameObject.Find("GameController").GetComponent<ScoreCounter>().coins += 1;
-        }
+            cash.coins += 1;
+            Destroy();
+        }       
     }
 
     IEnumerator LifeDelay()

@@ -16,7 +16,7 @@ public class Rule : MonoBehaviour
     [SerializeField] protected float startDelay;   // задержка перед началом спавна (на данном этапе используется для правила AimMeteorRule)
                                                    // чтобы самонаводящиеся метеориты появлялись не сразу и дали игроку схватиться за джойстик
 
-    [SerializeField] protected float absSpawnRate; // общая частота спавна объектов из этого правила
+    [SerializeField] public float absSpawnRate; // общая частота спавна объектов из этого правила
 
     [SerializeField] protected Map[] arr;          // массив объектов, структур (строка 8) содержащих объект для спавна и его ОТНОСИТЕЛЬНУЮ частоту
                                                    // [ относительная частота - число в пределах от 0 до 1, показывающая, какую ]
@@ -47,6 +47,11 @@ public class Rule : MonoBehaviour
 
         while (true)
         {
+            // кулдаун в начале финкции для удобства управления спавном
+            // если не нужно спавнить объект данного типа
+            // достаточо установить огромный кулдаун
+            yield return new WaitForSeconds(absSpawnRate);
+
             // выбор объекта для спавна из списка arr (строка 21)
             randVal = UnityEngine.Random.Range(0f, 1f);
             for (objectIndex = 0; objectIndex < arr.Length; objectIndex++)
@@ -55,8 +60,6 @@ public class Rule : MonoBehaviour
 
             // сам спавн
             Spawn(objectIndex);
-
-            yield return new WaitForSeconds(absSpawnRate);
         }
     }
 

@@ -1,51 +1,63 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
+
+public static class BONUS
+{
+    public const int SHIELD       = 0;
+    public const int DASH         = 1;
+    public const int MAGNET       = 2;
+}
 
 public class GameController : MonoBehaviour
 {
     [Header("Speed of adding score points")]
-    public float scoreSpeed;                                       // очков в секунду (базовое значение, которое будет взаимодействовать с множителем счёта)
+    public float scoreSpeed;
+    public ScoreCounter _counter;
+    private DifficultChanger _changer;
 
-    [Header("Quiet time before and after the pattern")]
-    [SerializeField] private int respiteBefore;
-    [SerializeField] private int respiteAfter;
-
-    [Header("The number of points required to start the pattern")]
-    public int patternScore;
+    [Header("Delay before and after the pattern")]
+    [SerializeField] private int delayBeforePattern;
+    [SerializeField] private int delayAfterPattern;
 
     private UnityAction PatternCompleted;
 
     [SerializeField] private GameObject player;
-    [SerializeField] private ObstacleSpawner obstacleSpawner;
+    [SerializeField] public ObstacleSpawner obstacleSpawner;
     [SerializeField] private PatternSpawner patternSpawner;
+    [SerializeField] private Fontain fontain;
 
-    private float scoreForCount;
-    private int patternConstScore;
+    public float nextPatternScore;
+    public float patternScoreAdd = 100;
+    public float addForAdd = 50;
 
     void Start()
     {
-        //player.GetComponent<PlayerController>().OnPlayerDeath += StopScoring;     
-        // спавн начинается только при создании нового объекта
+        _counter = GetComponent<ScoreCounter>();
+        _changer = GetComponent<DifficultChanger>();
+        _counter.score = 0;
+        nextPatternScore = patternScoreAdd;
+
         PatternCompleted += OnPatternCompleted;
-        obstacleSpawner = Instantiate(obstacleSpawner);
-        scoreSpeed = 1f / scoreSpeed;
+        scoreSpeed = 0.1f;
+        _changer.changeDifficult();
         StartScoring();
         obstacleSpawner.StartSpawn();
-        patternConstScore = patternScore;
     }
 
     void Update()
     {
         if (player.GetComponent<PlayerController>().alive == false)
             StopScoring();
-        scoreForCount = GameObject.Find("GameController").GetComponent<ScoreCounter>().score;
-        if (scoreForCount == patternScore)
+        if (_counter.score == nextPatternScore)
         {
-            patternScore += patternConstScore;
+            StopScoring();
+
+            // destroy all dangers
+
+            patternScoreAdd += addForAdd;
+            nextPatternScore += patternScoreAdd;
+
             obstacleSpawner.StopSpawn();
             StartCoroutine(SpawnPattern());
         }
@@ -53,29 +65,33 @@ public class GameController : MonoBehaviour
 
     public IEnumerator SpawnPattern()
     {
-        yield return new WaitForSeconds(respiteBefore);
+        yield return new WaitForSeconds(delayBeforePattern);
         patternSpawner.Spawn(PatternCompleted);
     }
 
     public IEnumerator ObstacleActivate()
     {
-        yield return new WaitForSeconds(respiteAfter);
+        yield return new WaitForSeconds(delayAfterPattern);
+        _counter.PatternNumber++;
+        _changer.changeDifficult();
+        StartScoring();
         obstacleSpawner.StartSpawn();
     }
 
     private void OnPatternCompleted()
     {
-        GetComponent<ScoreCounter>().PatternsNumber++;
+        StartCoroutine(fontain.Spawn(_counter.PatternNumber));
         StartCoroutine(ObstacleActivate());
     }
 
     private void StartScoring()
     {
-        GetComponent<ScoreCounter>().StartScorer();
+        _counter.StartScorer();
     }
 
     private void StopScoring()
     {
-        GetComponent<ScoreCounter>().StopScorer();
+        _counter.StopScorer();
     }
+
 }
