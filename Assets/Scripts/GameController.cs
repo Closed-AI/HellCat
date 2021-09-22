@@ -13,53 +13,51 @@ public class GameController : MonoBehaviour
 {
     [Header("Speed of adding score points")]
     public float scoreSpeed;
-    public ScoreCounter counter;
+    public ScoreCounter _counter;
+    private DifficultChanger _changer;
 
     [Header("Delay before and after the pattern")]
     [SerializeField] private int delayBeforePattern;
     [SerializeField] private int delayAfterPattern;
 
-    [Header("The number of points required to start the pattern")]
-    public float patternScore;
-
     private UnityAction PatternCompleted;
 
     [SerializeField] private GameObject player;
-    [SerializeField] public  ObstacleSpawner obstacleSpawner;
+    [SerializeField] public ObstacleSpawner obstacleSpawner;
     [SerializeField] private PatternSpawner patternSpawner;
+    [SerializeField] private Fontain fontain;
 
-    private float scoreForCount;
-    private float patternConstScore;
-
-    private readonly int[] _levelScores = { 100, 250, 450, 700, 1000, 1500, 2250, 3500, 5000 };
+    public float nextPatternScore;
+    public float patternScoreAdd = 100;
+    public float addForAdd = 50;
 
     void Start()
     {
-        counter = GetComponent<ScoreCounter>();
+        _counter = GetComponent<ScoreCounter>();
+        _changer = GetComponent<DifficultChanger>();
+        _counter.score = 0;
+        nextPatternScore = patternScoreAdd;
 
         PatternCompleted += OnPatternCompleted;
         scoreSpeed = 0.1f;
+        _changer.changeDifficult();
         StartScoring();
         obstacleSpawner.StartSpawn();
-        patternConstScore = patternScore;
     }
 
     void Update()
     {
         if (player.GetComponent<PlayerController>().alive == false)
             StopScoring();
-        scoreForCount = counter.score;
-        if (scoreForCount == patternScore)
+        if (_counter.score == nextPatternScore)
         {
             StopScoring();
+
             // destroy all dangers
-            //if (patternScore < _levelScores[_levelScores.Length - 1])
-            //    for (int i = 0; i < _levelScores.Length; i++)
-            //    {
-            //        if (patternScore <)
-            //    }
-            //else
-                patternScore += 5000;
+
+            patternScoreAdd += addForAdd;
+            nextPatternScore += patternScoreAdd;
+
             obstacleSpawner.StopSpawn();
             StartCoroutine(SpawnPattern());
         }
@@ -74,23 +72,26 @@ public class GameController : MonoBehaviour
     public IEnumerator ObstacleActivate()
     {
         yield return new WaitForSeconds(delayAfterPattern);
+        _counter.PatternNumber++;
+        _changer.changeDifficult();
+        StartScoring();
         obstacleSpawner.StartSpawn();
     }
 
     private void OnPatternCompleted()
     {
-        StartScoring();
-        counter.PatternsNumber++;
+        StartCoroutine(fontain.Spawn(_counter.PatternNumber));
         StartCoroutine(ObstacleActivate());
     }
 
     private void StartScoring()
     {
-        counter.StartScorer();
+        _counter.StartScorer();
     }
 
     private void StopScoring()
     {
-        counter.StopScorer();
+        _counter.StopScorer();
     }
+
 }

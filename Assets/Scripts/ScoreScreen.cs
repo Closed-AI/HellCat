@@ -38,7 +38,7 @@ public class ScoreScreen : MonoBehaviour
 
         finalScore = obj.GetComponent<ScoreCounter>().score;
         CoinsCount = obj.GetComponent<ScoreCounter>().coins;
-        finalPatternsNumber = obj.GetComponent<ScoreCounter>().PatternsNumber;
+        finalPatternsNumber = obj.GetComponent<ScoreCounter>().PatternNumber;
 
         audioS = GetComponent<AudioSource>();
         gameUI.SetActive(false);

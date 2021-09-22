@@ -36,7 +36,7 @@ public class Menu : MonoBehaviour
     public void OnClickRestart()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name,LoadSceneMode.Single);
     }
 
     public void OnClickMenu()

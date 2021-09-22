@@ -10,7 +10,7 @@ public class ObstacleSpawner : MonoBehaviour
     // набор правил (каждое правило задаёт... ПРАВИЛА спавна определённых объектов)
     // текущая реализация соответствует паттерну "Фабричный метод"
     // (подставляем конкретный правила в массив Rules)
-    [SerializeField] private Rule[] rules;
+    [SerializeField] public Rule[] rules;
     // существует базовый класс Rule, от него наследуются конкретные правила
     // (см GlobalMeteorRule и AimMeteorRule)
     // правила спавна задаются путём переопределения виртуального метода Spawn()

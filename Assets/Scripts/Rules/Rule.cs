@@ -16,7 +16,7 @@ public class Rule : MonoBehaviour
     [SerializeField] protected float startDelay;   // задержка перед началом спавна (на данном этапе используется для правила AimMeteorRule)
                                                    // чтобы самонаводящиеся метеориты появлялись не сразу и дали игроку схватиться за джойстик
 
-    [SerializeField] protected float absSpawnRate; // общая частота спавна объектов из этого правила
+    [SerializeField] public float absSpawnRate; // общая частота спавна объектов из этого правила
 
     [SerializeField] protected Map[] arr;          // массив объектов, структур (строка 8) содержащих объект для спавна и его ОТНОСИТЕЛЬНУЮ частоту
                                                    // [ относительная частота - число в пределах от 0 до 1, показывающая, какую ]
