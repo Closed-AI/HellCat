@@ -36,11 +36,14 @@ public class PlayerController : MonoBehaviour
 
     public GameObject FinalScreen;                           // окно финального счёта
 
+    Animator anim;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         dashTime = dashCooldown;
         alive = true;
         rb = GetComponent<Rigidbody2D>();
@@ -53,6 +56,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isDash && (joystick.Horizontal != 0 || joystick.Vertical != 0))
+            anim.SetInteger("CharacterAnimNumber", 1);
+        else if (isDash)
+            anim.SetInteger("CharacterAnimNumber", 2);
+        else
+            anim.SetInteger("CharacterAnimNumber", 0);
         // если игрок жив и не в деше -> перемещение
         if (alive && !isDash)
         {
@@ -144,7 +153,7 @@ public class PlayerController : MonoBehaviour
         {
             timer -= Time.deltaTime;
 
-            transform.position = Vector3.Lerp(transform.position, freezeObject.transform.position, Time.deltaTime* translationSpeed);
+            transform.position = Vector3.Lerp(transform.position, freezeObject.transform.position + new Vector3(0,0.5f,0), Time.deltaTime* translationSpeed);
 
             yield return null;
         }
