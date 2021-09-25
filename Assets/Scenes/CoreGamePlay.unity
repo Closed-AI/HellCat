@@ -3610,7 +3610,7 @@ MonoBehaviour:
   patternSpawner: {fileID: 80643234}
   fontain: {fileID: 1662787768}
   nextPatternScore: 0
-  patternScoreAdd: 0
+  patternScoreAdd: 100
   addForAdd: 50
   PatternMusic: {fileID: 8300000, guid: 404fba59bd3ceef49add8adf4e9edb47, type: 3}
   CoreMusic: {fileID: 8300000, guid: eabc68346eb1ffe4db21c31947b913ae, type: 3}
@@ -3971,123 +3971,6 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.000015259, y: -6.9}
   m_SizeDelta: {x: 559.9999, y: 346.3391}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1530847918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 593527922}
-    m_Modifications:
-    - target: {fileID: 2216702225356341924, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_Name
-      value: AimMeteorRuleObject
-      objectReference: {fileID: 0}
-    - target: {fileID: 2216702225356341924, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3994558906972170065, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: absSpawnRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.83584726
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -19.704899
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -9.434366
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5348241162807699541, guid: 88e295b7135e63d4b9b1a5ca14aca82a,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 88e295b7135e63d4b9b1a5ca14aca82a, type: 3}
---- !u!1 &1530847916
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1530847917}
-  - component: {fileID: 1530847920}
-  - component: {fileID: 1530847919}
-  - component: {fileID: 1530847918}
-  m_Layer: 5
-  m_Name: SkipButton
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1530847917
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1530847916}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1720279302}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1400, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1530847918
 MonoBehaviour:
@@ -4758,7 +4641,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605489369}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -4866,28 +4749,29 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1626113808}
-  - component: {fileID: 1626113809}
-  m_Layer: 0
-  m_Name: BonusSpawnPoint_5
+  - component: {fileID: 1630104426}
+  - component: {fileID: 1630104428}
+  - component: {fileID: 1630104427}
+  m_Layer: 5
+  m_Name: TotalMoney
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1626113808
-Transform:
+--- !u!224 &1630104426
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1626113807}
-  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
-  m_LocalPosition: {x: -2.835, y: -3.88, z: 2.5531008}
-  m_LocalScale: {x: 0.15366642, y: 0.11524981, z: 0.9219985}
+  m_GameObject: {fileID: 1630104425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 644940152}
-  m_RootOrder: 4
+  m_Father: {fileID: 1720279302}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6030,23 +5914,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!1 &2145910537
 GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2145910539}
-  - component: {fileID: 2145910538}
-  m_Layer: 0
-  m_Name: BonusSpawnPoint_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &2145910538
-SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
